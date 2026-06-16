@@ -7,8 +7,8 @@ KeyHint는 Mac 파워유저와 개발자가 방금 실제로 누른 단축키를
 ## 현재 상태
 
 - 상태: Ralph 구현 단계 진행 중
-- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약
-- 아직 없음: Tauri scaffold, 실제 HUD UI, native macOS event collector
+- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약, Tauri v2 scaffold
+- 아직 없음: 실제 HUD UI, developer command 구현, native macOS event collector
 - 기준 문서:
   - [`docs/PRD.md`](docs/PRD.md)
   - [`docs/test-spec.md`](docs/test-spec.md)
@@ -17,7 +17,7 @@ KeyHint는 Mac 파워유저와 개발자가 방금 실제로 누른 단축키를
 
 ## 5분 Quickstart
 
-> 현재 단계에서는 quickstart **계약**을 먼저 고정합니다. 단계 3 이후 Tauri scaffold가 들어오면 아래 명령이 실제 실행 경로가 됩니다.
+> Tauri scaffold가 생성되어 `npm install`, `npm run check`, `npm run build`, `npm run tauri:dev` 경로를 사용할 수 있습니다. Mock HUD 명령은 단계 4~5에서 실제 CLI로 연결됩니다.
 
 ### 1. 저장소 확인
 

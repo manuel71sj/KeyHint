@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# frontend build output
+dist/
+
+# Tauri/Rust build output
+src-tauri/target/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
