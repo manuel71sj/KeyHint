@@ -122,4 +122,4 @@
 - 사용한 스킬/표면: `$ralph` native/app context spike
 - 완료 보고: foreground app bundle id/display name resolver fallback을 확인하고, resolved/no_active_app/stale_context/resolver_unavailable 상태와 Unknown 저장 guard를 구현했다.
 - 검증 근거: `npm run app:resolve`가 `com.microsoft.teams2`/`MSTeams`를 resolved로 반환, `cargo test --manifest-path src-tauri/Cargo.toml active_app` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
-- 커밋: 보정 예정
+- 커밋: `c7d7968`
