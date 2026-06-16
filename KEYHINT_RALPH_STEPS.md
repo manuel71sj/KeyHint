@@ -65,4 +65,4 @@
 - 사용한 스킬/표면: `$ralph` + DX 문서화
 - 완료 보고: README에 5분 quickstart, 2분 permissionless mock HUD demo, 권한 caveat, developer command 계약, troubleshooting 링크를 작성했다.
 - 검증 근거: `grep`으로 `5분 Quickstart`, `Permissionless Mock HUD Demo`, `hud:test --shortcut Command+P --app Cursor`, `권한 caveat`, `docs/troubleshooting.md`, `No raw text stored`, `keyhint doctor` 존재를 확인했다.
-- 커밋: 보정 예정
+- 커밋: `5da72da`
