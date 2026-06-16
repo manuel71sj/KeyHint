@@ -99,4 +99,4 @@
 - 사용한 스킬/표면: `$ralph` + DX 구현
 - 완료 보고: `npm run keyhint -- ...` 기반으로 `doctor`, `hud:test`, `permissions:check`, `maps:validate`, `diagnostics:redact` 명령을 구현했다.
 - 검증 근거: `npm run doctor`, `npm run hud:test`, `npm run permissions:check`, `npm run maps:validate`, `npm run diagnostics:redact`, `npm run test`, `npm run build`, `npm audit --audit-level=high` 통과.
-- 커밋: 보정 예정
+- 커밋: `836e931`
