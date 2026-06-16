@@ -17,7 +17,7 @@
 | 단계 | 상태 | 적합한 스킬/표면 | 목표 | 완료 기준 | 완료 보고 |
 |---:|:---:|---|---|---|---|
 | 0 | [x] | `$ralph` | 실행 순서 문서와 Ralph 컨텍스트를 만든다 | 이 파일 생성, 컨텍스트 스냅샷 작성, 커밋 | 완료 — 실행 순서 원장과 컨텍스트 스냅샷 생성 |
-| 1 | [ ] | `$ralph` + planning gate | 승인 기획서를 repo-local PRD/테스트 스펙/구현 계획으로 분리한다 | `docs/PRD.md`, `docs/test-spec.md`, `docs/implementation-plan.md`, `.omx/plans/prd-keyhint.md`, `.omx/plans/test-spec-keyhint.md` 생성 |  |
+| 1 | [x] | `$ralph` + planning gate | 승인 기획서를 repo-local PRD/테스트 스펙/구현 계획으로 분리한다 | `docs/PRD.md`, `docs/test-spec.md`, `docs/implementation-plan.md`, `.omx/plans/prd-keyhint.md`, `.omx/plans/test-spec-keyhint.md` 생성 | 완료 — PRD/테스트 스펙/구현 계획과 Ralph planning gate 파일 생성 |
 | 2 | [ ] | `$ralph` + DX | README quickstart와 permissionless mock HUD demo 계약을 작성한다 | README에 5분 quickstart, mock HUD 명령, 권한 caveat, troubleshooting 링크 추가 |  |
 | 3 | [ ] | `$ralph` + Tauri 공식 문서 확인 | Tauri v2 앱 scaffold를 만든다 | `package.json`, `src/`, `src-tauri/` 기본 구조, dev/test script 존재 |  |
 | 4 | [ ] | `$ralph` + frontend 구현 | permissionless mock HUD demo를 구현한다 | 권한 없이 mock HUD 화면/상태를 볼 수 있음 |  |
@@ -44,3 +44,14 @@
 - 완료 보고: 실행 순서 문서와 Ralph 컨텍스트 스냅샷을 생성했고, 단계별 진행/검증/커밋 기록 원장을 초기화했다.
 - 검증 근거: `KEYHINT_RALPH_STEPS.md` 존재, `.omx/context/keyhint-ralph-sequence-20260616T034348Z.md` 존재, `git log --oneline -2`에서 단계 0 커밋 확인.
 - 커밋: `75548c3`, `bb94e38`
+
+
+### 단계 1 — PRD/test-spec/implementation-plan 분리
+
+- 상태: 완료
+- 시작: 2026-06-16
+- 완료: 2026-06-16
+- 사용한 스킬/표면: `$ralph` planning gate
+- 완료 보고: 승인 기획서를 repo-local PRD, 테스트 스펙, 구현 계획으로 분리했고 Ralph 구현 게이트 파일을 생성했다.
+- 검증 근거: `docs/PRD.md`, `docs/test-spec.md`, `docs/implementation-plan.md`, `.omx/plans/prd-keyhint.md`, `.omx/plans/test-spec-keyhint.md`가 모두 존재하며 핵심 키워드(local memory, meaning-first, Unknown, trust-before-permission, raw text, source precedence)를 grep으로 확인했다.
+- 커밋: 보정 예정
