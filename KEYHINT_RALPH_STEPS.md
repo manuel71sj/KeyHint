@@ -28,7 +28,7 @@
 | 9 | [x] | `$ralplan` 후 `$ralph` | shortcut source resolver와 local store schema를 확정한다 | source precedence, UnknownCandidate, UserOverride, migration 계약과 테스트 존재 | 완료 — source precedence와 local store schema/resolver 계약 구현 및 검증 |
 | 10 | [x] | `$ralph` | local Unknown inbox를 구현한다 | Unknown 저장/라벨/무시/import 흐름이 동작 | 완료 — Unknown 저장/라벨/무시/import 흐름 구현 및 CLI 검증 |
 | 11 | [x] | `$interface-design` 후 `$ralph` | Settings IA를 구현한다 | Status/Privacy/HUD/Sources/Unknowns/Apps/Diagnostics 화면 또는 scaffold 존재 | 완료 — Settings IA scaffold와 Keystroke ledger 화면 구현 |
-| 12 | [ ] | `$ralph` + docs | privacy/troubleshooting/release 문서를 작성한다 | `docs/privacy.md`, `docs/troubleshooting.md`, `docs/release.md` 존재 |  |
+| 12 | [x] | `$ralph` + docs | privacy/troubleshooting/release 문서를 작성한다 | `docs/privacy.md`, `docs/troubleshooting.md`, `docs/release.md` 존재 | 완료 — privacy/troubleshooting/release 문서와 검증 스크립트 작성 |
 | 13 | [ ] | `$ralph` + tests | 테스트 계획을 자동화 테스트로 반영한다 | normalizer/matcher/queue/permission/redaction 테스트 존재 |  |
 | 14 | [ ] | `$code-review` + architect verification | 전체 코드 리뷰와 Ralph 검증을 수행한다 | fresh test/build/lint, architect approval, deslop/re-verify 완료 |  |
 | 15 | [ ] | `$ultraqa` 또는 `$qa` | 실제 사용 QA 계획을 수행/문서화한다 | HUD, 권한, fullscreen, multi-display, secure input 결과 기록 |  |
@@ -167,3 +167,14 @@
 - 완료 보고: KeyHint Settings를 generic preferences가 아니라 `Capture → Context → Meaning → Memory` keystroke ledger로 설계하고, Status/Privacy/HUD/Sources/Unknowns/Apps/Diagnostics scaffold를 앱 화면과 문서로 구현했다.
 - 검증 근거: `npm run test:settings-ia` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, Vite settings/unknowns/HUD preview URL HTTP 200 확인. `$visual-verdict`는 비교 기준 이미지가 없어 적용 대상이 아니었다.
 - 커밋: `aae2cf9`
+
+
+### 단계 12 — privacy/troubleshooting/release 문서
+
+- 상태: 완료
+- 시작: 2026-06-16
+- 완료: 2026-06-16
+- 사용한 스킬/표면: `$ralph` + docs
+- 완료 보고: local-only privacy contract, Problem/Cause/Fix/Verify troubleshooting catalog, signed/notarized release checklist와 release notes template을 작성하고 문서 검증 스크립트를 추가했다.
+- 검증 근거: `npm run test:docs` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
+- 커밋: `보정 예정`
