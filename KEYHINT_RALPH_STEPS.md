@@ -16,7 +16,7 @@
 
 | 단계 | 상태 | 적합한 스킬/표면 | 목표 | 완료 기준 | 완료 보고 |
 |---:|:---:|---|---|---|---|
-| 0 | [~] | `$ralph` | 실행 순서 문서와 Ralph 컨텍스트를 만든다 | 이 파일 생성, 컨텍스트 스냅샷 작성, 커밋 | 진행 중 |
+| 0 | [x] | `$ralph` | 실행 순서 문서와 Ralph 컨텍스트를 만든다 | 이 파일 생성, 컨텍스트 스냅샷 작성, 커밋 | 완료 — 실행 순서 원장과 컨텍스트 스냅샷 생성 |
 | 1 | [ ] | `$ralph` + planning gate | 승인 기획서를 repo-local PRD/테스트 스펙/구현 계획으로 분리한다 | `docs/PRD.md`, `docs/test-spec.md`, `docs/implementation-plan.md`, `.omx/plans/prd-keyhint.md`, `.omx/plans/test-spec-keyhint.md` 생성 |  |
 | 2 | [ ] | `$ralph` + DX | README quickstart와 permissionless mock HUD demo 계약을 작성한다 | README에 5분 quickstart, mock HUD 명령, 권한 caveat, troubleshooting 링크 추가 |  |
 | 3 | [ ] | `$ralph` + Tauri 공식 문서 확인 | Tauri v2 앱 scaffold를 만든다 | `package.json`, `src/`, `src-tauri/` 기본 구조, dev/test script 존재 |  |
@@ -40,6 +40,7 @@
 
 - 상태: 완료
 - 시작: 2026-06-16
-- 완료 보고: 실행 순서 문서와 Ralph 컨텍스트 스냅샷을 생성했다.
-- 검증 근거:  생성,  생성, git commit 성공.
-- 커밋: 
+- 완료: 2026-06-16
+- 완료 보고: 실행 순서 문서와 Ralph 컨텍스트 스냅샷을 생성했고, 단계별 진행/검증/커밋 기록 원장을 초기화했다.
+- 검증 근거: `KEYHINT_RALPH_STEPS.md` 존재, `.omx/context/keyhint-ralph-sequence-20260616T034348Z.md` 존재, `git log --oneline -2`에서 단계 0 커밋 확인.
+- 커밋: `75548c3`, `bb94e38`
