@@ -20,7 +20,7 @@
 | 1 | [x] | `$ralph` + planning gate | 승인 기획서를 repo-local PRD/테스트 스펙/구현 계획으로 분리한다 | `docs/PRD.md`, `docs/test-spec.md`, `docs/implementation-plan.md`, `.omx/plans/prd-keyhint.md`, `.omx/plans/test-spec-keyhint.md` 생성 | 완료 — PRD/테스트 스펙/구현 계획과 Ralph planning gate 파일 생성 |
 | 2 | [x] | `$ralph` + DX | README quickstart와 permissionless mock HUD demo 계약을 작성한다 | README에 5분 quickstart, mock HUD 명령, 권한 caveat, troubleshooting 링크 추가 | 완료 — README quickstart와 mock HUD 명령 계약 작성 |
 | 3 | [x] | `$ralph` + Tauri 공식 문서 확인 | Tauri v2 앱 scaffold를 만든다 | `package.json`, `src/`, `src-tauri/` 기본 구조, dev/test script 존재 | 완료 — Tauri v2 Vanilla TypeScript scaffold 생성 및 검증 |
-| 4 | [ ] | `$ralph` + frontend 구현 | permissionless mock HUD demo를 구현한다 | 권한 없이 mock HUD 화면/상태를 볼 수 있음 |  |
+| 4 | [x] | `$ralph` + frontend 구현 | permissionless mock HUD demo를 구현한다 | 권한 없이 mock HUD 화면/상태를 볼 수 있음 | 완료 — Known/Unknown/Permission mock HUD 상태 구현 및 URL preview 검증 |
 | 5 | [ ] | `$ralph` + DX | developer command 표면을 만든다 | `keyhint doctor`, `hud:test`, `maps:validate`, `diagnostics:redact` 또는 대응 script 동작 |  |
 | 6 | [ ] | `$ralph` + native spike | macOS event collector spike를 구현/문서화한다 | Input Monitoring/CGEventTap 가능성, secure input, IME, plain text 정책이 검증/기록됨 |  |
 | 7 | [ ] | `$ralph` | active app resolver spike를 구현/문서화한다 | foreground app bundle id, nil/stale 상태 처리가 검증/기록됨 |  |
@@ -78,3 +78,14 @@
 - 검증 근거: `npm run check` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, `cargo check --manifest-path src-tauri/Cargo.toml` 통과, scaffold 필수 파일과 `dev`/`tauri`/`tauri:dev`/`check`/`test`/`build` scripts 존재 확인.
 - 참고 근거: Tauri v2 Create a Project, Develop, Configuration Files 공식 문서.
 - 커밋: `548e16e`
+
+
+### 단계 4 — Permissionless mock HUD demo
+
+- 상태: 완료
+- 시작: 2026-06-16
+- 완료: 2026-06-16
+- 사용한 스킬/표면: `$ralph` + frontend 구현
+- 완료 보고: 권한 없이 Known, Unknown, Permission missing HUD 상태를 query string으로 볼 수 있는 mock HUD demo를 구현했다.
+- 검증 근거: `npm run test:mock-hud` 통과, `npm run check` 통과, `npm run build` 통과, Vite dev server에서 세 mock URL 모두 HTTP 200 응답 확인.
+- 커밋: 보정 예정

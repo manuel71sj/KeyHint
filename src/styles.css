@@ -21,7 +21,7 @@ body {
 }
 
 .shell {
-  width: min(720px, calc(100vw - 32px));
+  width: min(760px, calc(100vw - 32px));
   padding: 48px;
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 28px;
@@ -54,16 +54,40 @@ h1 {
   display: grid;
   gap: 8px;
   max-width: 520px;
-  margin: 0 0 28px;
+  margin: 0 0 16px;
   padding: 18px 22px;
   border-radius: 20px;
   background: rgba(246, 248, 255, 0.94);
   color: #111827;
+  border: 2px solid transparent;
 }
 
+.hud--unknown { border-color: #f59e0b; }
+.hud--permission { border-color: #60a5fa; }
 .hud strong { font-size: 1.28rem; }
 .hud kbd { font-size: 1.9rem; font-weight: 800; }
 .hud span { color: #4b5563; }
+
+.demo-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 28px;
+}
+
+.demo-switcher a {
+  color: #dbe7ff;
+  border: 1px solid rgba(219, 231, 255, 0.24);
+  border-radius: 999px;
+  padding: 8px 12px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.demo-switcher a:focus-visible {
+  outline: 3px solid #8fb3ff;
+  outline-offset: 3px;
+}
 
 .status-grid {
   display: grid;
@@ -72,7 +96,8 @@ h1 {
   margin: 0 0 20px;
 }
 
-.status-grid div {
+.status-grid div,
+.contract {
   padding: 14px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.06);
@@ -80,7 +105,9 @@ h1 {
 
 .status-grid dt { color: #9aa8bd; font-size: 0.78rem; }
 .status-grid dd { margin: 6px 0 0; font-weight: 700; }
-.note { color: #b9c3d3; margin: 0; }
+.contract h2 { margin: 0 0 10px; font-size: 1rem; }
+.contract ul { margin: 0; padding-left: 20px; color: #c7cfdd; }
+.contract li + li { margin-top: 6px; }
 
 @media (max-width: 640px) {
   .shell { padding: 28px; }

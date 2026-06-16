@@ -7,8 +7,8 @@ KeyHint는 Mac 파워유저와 개발자가 방금 실제로 누른 단축키를
 ## 현재 상태
 
 - 상태: Ralph 구현 단계 진행 중
-- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약, Tauri v2 scaffold
-- 아직 없음: 실제 HUD UI, developer command 구현, native macOS event collector
+- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약, Tauri v2 scaffold, mock HUD 화면/상태 모델
+- 아직 없음: developer command 구현, native macOS event collector
 - 기준 문서:
   - [`docs/PRD.md`](docs/PRD.md)
   - [`docs/test-spec.md`](docs/test-spec.md)
@@ -30,7 +30,7 @@ git status
 - 작업 중인 변경사항이 없다.
 - `docs/PRD.md`, `docs/test-spec.md`, `docs/implementation-plan.md`가 존재한다.
 
-### 2. 의존성 설치 예정 경로
+### 2. 의존성 설치
 
 ```bash
 npm install
@@ -38,10 +38,10 @@ npm install
 
 기대 결과:
 
-- Tauri scaffold 이후 Node/Tauri 의존성이 설치된다.
+- Node/Tauri 의존성이 설치된다.
 - 설치 실패 시 `docs/troubleshooting.md`의 install 섹션을 확인한다.
 
-### 3. 개발 서버 실행 예정 경로
+### 3. 개발 서버 실행
 
 ```bash
 npm run dev
@@ -108,6 +108,23 @@ npm run keyhint -- hud:test --permission denied
 KeyHint cannot see shortcuts yet
 Input Monitoring is disabled
 Open System Settings
+```
+
+
+### 현재 구현된 mock preview URL
+
+Tauri/native 권한 없이 Vite 화면에서 바로 확인할 수 있습니다.
+
+```text
+http://127.0.0.1:1420/?mock=known&shortcut=Command%2BP&app=Cursor&meaning=Go+to+File&source=imported+keybindings
+http://127.0.0.1:1420/?mock=unknown&shortcut=Command%2BShift%2BX&app=Cursor
+http://127.0.0.1:1420/?mock=permission
+```
+
+검증:
+
+```bash
+npm run test:mock-hud
 ```
 
 ## 권한 caveat

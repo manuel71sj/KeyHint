@@ -16,7 +16,8 @@
     "check": "npm run check:web && npm run check:tauri-manifest",
     "check:web": "tsc --noEmit",
     "check:tauri-manifest": "cargo metadata --manifest-path src-tauri/Cargo.toml --no-deps --format-version 1 >/dev/null",
-    "test": "npm run check"
+    "test": "npm run check && npm run test:mock-hud",
+    "test:mock-hud": "node --experimental-strip-types scripts/verify-mock-hud.ts"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0"
