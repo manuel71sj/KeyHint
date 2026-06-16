@@ -1,0 +1,37 @@
+{
+  "mode": "ralplan_consensus_handoff",
+  "task": "KeyHint stage 9 source resolver and local store schema",
+  "createdAt": "2026-06-16",
+  "planningArtifacts": {
+    "plan": ".omx/plans/ralplan-source-resolver-local-store.md",
+    "prd": ".omx/plans/prd-keyhint.md",
+    "testSpec": ".omx/plans/test-spec-keyhint.md"
+  },
+  "ralplanArchitectReview": {
+    "order": 1,
+    "firstVerdict": "ITERATE",
+    "finalVerdict": "APPROVE",
+    "appliedFeedback": [
+      "UnknownCandidate candidateId deterministic key",
+      "UserOverride overrideId deterministic key",
+      "Rust freshness guard as authoritative source",
+      "MigrationDryRunResult output fields",
+      "Redaction negative assertions"
+    ]
+  },
+  "ralplanCriticReview": {
+    "order": 2,
+    "verdict": "APPROVE",
+    "notes": [
+      "principle-option consistency passed",
+      "alternatives depth passed",
+      "risk and verification rigor passed",
+      "schemaVersion naming must remain consistent"
+    ]
+  },
+  "ralplanConsensusGate": {
+    "complete": true,
+    "requiredOrder": "architect_then_critic",
+    "executionLane": "$ralph"
+  }
+}

@@ -25,7 +25,7 @@
 | 6 | [x] | `$ralph` + native spike | macOS event collector spike를 구현/문서화한다 | Input Monitoring/CGEventTap 가능성, secure input, IME, plain text 정책이 검증/기록됨 | 완료 — native event collector 정책 seam과 안전 필터 테스트 구현 |
 | 7 | [x] | `$ralph` | active app resolver spike를 구현/문서화한다 | foreground app bundle id, nil/stale 상태 처리가 검증/기록됨 | 완료 — active app resolver 상태 모델과 Unknown 저장 guard 구현 |
 | 8 | [x] | `$ralph` + UI/native spike | HUD overlay와 native fallback 경계를 구현/문서화한다 | Tauri renderer와 native fallback capability matrix/테스트 체크리스트 존재 | 완료 — HUD renderer interface와 native fallback capability matrix 구현 |
-| 9 | [ ] | `$ralplan` 후 `$ralph` | shortcut source resolver와 local store schema를 확정한다 | source precedence, UnknownCandidate, UserOverride, migration 계약과 테스트 존재 |  |
+| 9 | [x] | `$ralplan` 후 `$ralph` | shortcut source resolver와 local store schema를 확정한다 | source precedence, UnknownCandidate, UserOverride, migration 계약과 테스트 존재 | 완료 — source precedence와 local store schema/resolver 계약 구현 및 검증 |
 | 10 | [ ] | `$ralph` | local Unknown inbox를 구현한다 | Unknown 저장/라벨/무시/import 흐름이 동작 |  |
 | 11 | [ ] | `$interface-design` 후 `$ralph` | Settings IA를 구현한다 | Status/Privacy/HUD/Sources/Unknowns/Apps/Diagnostics 화면 또는 scaffold 존재 |  |
 | 12 | [ ] | `$ralph` + docs | privacy/troubleshooting/release 문서를 작성한다 | `docs/privacy.md`, `docs/troubleshooting.md`, `docs/release.md` 존재 |  |
@@ -134,3 +134,14 @@
 - 완료 보고: focus-safe `HudRenderer.show(state)` 계약과 Tauri/native fallback capability matrix를 Rust seam, CLI, 문서로 구현했다.
 - 검증 근거: `npm run renderer:matrix` 통과, `cargo test --manifest-path src-tauri/Cargo.toml hud_renderer` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
 - 커밋: `4977ca5`
+
+
+### 단계 9 — shortcut source resolver와 local store schema
+
+- 상태: 완료
+- 시작: 2026-06-16
+- 완료: 2026-06-16
+- 사용한 스킬/표면: `$ralplan` consensus gate + `$ralph` 구현/검증
+- 완료 보고: Architect/Critic consensus로 identity/freshness/migration/redaction 계약을 확정한 뒤, TypeScript-first local store schema와 source resolver, 검증 스크립트, 문서를 구현했다.
+- 검증 근거: `npm run test:source-resolver` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과. 검증은 source precedence, deterministic `candidateId`/`overrideId`, unresolved/stale Unknown 저장 차단, migration dry-run, diagnostics redaction을 포함한다.
+- 커밋: `보정 예정`
