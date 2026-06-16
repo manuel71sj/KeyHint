@@ -7,7 +7,7 @@ KeyHint는 Mac 파워유저와 개발자가 방금 실제로 누른 단축키를
 ## 현재 상태
 
 - 상태: Ralph 구현 단계 진행 중
-- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약, Tauri v2 scaffold, mock HUD 화면/상태 모델, developer command 구현, native event collector policy spike, active app resolver policy spike, HUD renderer fallback matrix, source resolver/local store schema, local Unknown inbox, Settings IA scaffold, privacy/troubleshooting/release docs
+- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약, Tauri v2 scaffold, mock HUD 화면/상태 모델, developer command 구현, native event collector policy spike, active app resolver policy spike, HUD renderer fallback matrix, source resolver/local store schema, local Unknown inbox, Settings IA scaffold, privacy/troubleshooting/release docs, automated normalizer/matcher/queue/permission/redaction coverage
 - 아직 없음: 실제 CGEventTap 시작/권한 플로우, 실제 native NSPanel 표시
 - 기준 문서:
   - [`docs/PRD.md`](docs/PRD.md)
@@ -22,6 +22,7 @@ KeyHint는 Mac 파워유저와 개발자가 방금 실제로 누른 단축키를
   - [`docs/privacy.md`](docs/privacy.md)
   - [`docs/troubleshooting.md`](docs/troubleshooting.md)
   - [`docs/release.md`](docs/release.md)
+  - [`docs/test-automation.md`](docs/test-automation.md)
   - [`KEYHINT_RALPH_STEPS.md`](KEYHINT_RALPH_STEPS.md)
 
 ## 5분 Quickstart
@@ -194,4 +195,4 @@ Docs: docs/troubleshooting.md#input-monitoring
 
 ## 구현 순서
 
-전체 순서는 [`KEYHINT_RALPH_STEPS.md`](KEYHINT_RALPH_STEPS.md)를 따릅니다. 다음 단계는 테스트 계획 자동화 반영입니다.
+전체 순서는 [`KEYHINT_RALPH_STEPS.md`](KEYHINT_RALPH_STEPS.md)를 따릅니다. 다음 단계는 전체 코드 리뷰와 Ralph 검증입니다.

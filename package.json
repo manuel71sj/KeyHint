@@ -16,7 +16,7 @@
     "check": "npm run check:web && npm run check:tauri-manifest",
     "check:web": "tsc --noEmit",
     "check:tauri-manifest": "cargo metadata --manifest-path src-tauri/Cargo.toml --no-deps --format-version 1 >/dev/null",
-    "test": "npm run check && npm run test:mock-hud && npm run test:cli && npm run test:source-resolver && npm run test:unknown-inbox && npm run test:settings-ia && npm run test:docs && npm run test:native:policy && npm run test:native:active-app && npm run test:native:renderer",
+    "test": "npm run check && npm run test:mock-hud && npm run test:cli && npm run test:source-resolver && npm run test:unknown-inbox && npm run test:settings-ia && npm run test:docs && npm run test:automation-coverage && npm run test:native:policy && npm run test:native:active-app && npm run test:native:renderer",
     "test:mock-hud": "node --experimental-strip-types scripts/verify-mock-hud.ts",
     "keyhint": "node scripts/keyhint.mjs",
     "doctor": "npm run keyhint -- doctor",
@@ -34,7 +34,8 @@
     "test:source-resolver": "node --experimental-strip-types scripts/verify-source-resolver.ts",
     "test:unknown-inbox": "node --experimental-strip-types scripts/verify-unknown-inbox.ts",
     "test:settings-ia": "node --experimental-strip-types scripts/verify-settings-ia.ts",
-    "test:docs": "node --experimental-strip-types scripts/verify-docs.ts"
+    "test:docs": "node --experimental-strip-types scripts/verify-docs.ts",
+    "test:automation-coverage": "node --experimental-strip-types scripts/verify-automation-coverage.ts"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0"

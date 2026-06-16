@@ -29,7 +29,7 @@
 | 10 | [x] | `$ralph` | local Unknown inbox를 구현한다 | Unknown 저장/라벨/무시/import 흐름이 동작 | 완료 — Unknown 저장/라벨/무시/import 흐름 구현 및 CLI 검증 |
 | 11 | [x] | `$interface-design` 후 `$ralph` | Settings IA를 구현한다 | Status/Privacy/HUD/Sources/Unknowns/Apps/Diagnostics 화면 또는 scaffold 존재 | 완료 — Settings IA scaffold와 Keystroke ledger 화면 구현 |
 | 12 | [x] | `$ralph` + docs | privacy/troubleshooting/release 문서를 작성한다 | `docs/privacy.md`, `docs/troubleshooting.md`, `docs/release.md` 존재 | 완료 — privacy/troubleshooting/release 문서와 검증 스크립트 작성 |
-| 13 | [ ] | `$ralph` + tests | 테스트 계획을 자동화 테스트로 반영한다 | normalizer/matcher/queue/permission/redaction 테스트 존재 |  |
+| 13 | [x] | `$ralph` + tests | 테스트 계획을 자동화 테스트로 반영한다 | normalizer/matcher/queue/permission/redaction 테스트 존재 | 완료 — normalizer/matcher/queue/permission/redaction 자동화 커버리지 추가 |
 | 14 | [ ] | `$code-review` + architect verification | 전체 코드 리뷰와 Ralph 검증을 수행한다 | fresh test/build/lint, architect approval, deslop/re-verify 완료 |  |
 | 15 | [ ] | `$ultraqa` 또는 `$qa` | 실제 사용 QA 계획을 수행/문서화한다 | HUD, 권한, fullscreen, multi-display, secure input 결과 기록 |  |
 | 16 | [ ] | `/ship` 또는 `$ralph` | 배포 준비를 문서화한다 | signed/notarized/no-network/GitHub Release checklist 준비 |  |
@@ -178,3 +178,14 @@
 - 완료 보고: local-only privacy contract, Problem/Cause/Fix/Verify troubleshooting catalog, signed/notarized release checklist와 release notes template을 작성하고 문서 검증 스크립트를 추가했다.
 - 검증 근거: `npm run test:docs` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
 - 커밋: `eaa8e30`
+
+
+### 단계 13 — 테스트 계획 자동화
+
+- 상태: 완료
+- 시작: 2026-06-16
+- 완료: 2026-06-16
+- 사용한 스킬/표면: `$ralph` + tests
+- 완료 보고: shortcut normalizer, matcher precedence, shortcut event queue, permission recovery policy, diagnostics redaction을 자동화 테스트로 고정하고 문서화했다.
+- 검증 근거: `npm run test:automation-coverage` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
+- 커밋: `보정 예정`
