@@ -16,7 +16,7 @@
     "check": "npm run check:web && npm run check:scripts && npm run check:tauri-manifest",
     "check:web": "tsc --noEmit",
     "check:tauri-manifest": "cargo metadata --manifest-path src-tauri/Cargo.toml --no-deps --format-version 1 >/dev/null",
-    "test": "npm run check && npm run test:mock-hud && npm run test:cli && npm run test:source-resolver && npm run test:unknown-inbox && npm run test:settings-ia && npm run test:docs && npm run test:automation-coverage && npm run test:render-safety && npm run test:native:policy && npm run test:native:active-app && npm run test:native:renderer",
+    "test": "npm run check && npm run test:mock-hud && npm run test:cli && npm run test:source-resolver && npm run test:unknown-inbox && npm run test:settings-ia && npm run test:docs && npm run test:automation-coverage && npm run test:render-safety && npm run test:qa-plan && npm run test:native:policy && npm run test:native:active-app && npm run test:native:renderer",
     "test:mock-hud": "node --experimental-strip-types scripts/verify-mock-hud.ts",
     "keyhint": "node scripts/keyhint.mjs",
     "doctor": "npm run keyhint -- doctor",
@@ -38,7 +38,8 @@
     "test:automation-coverage": "node --experimental-strip-types scripts/verify-automation-coverage.ts",
     "check:scripts": "tsc --project tsconfig.scripts.json",
     "test:render-safety": "node --experimental-strip-types scripts/verify-render-safety.ts",
-    "lint:rust": "cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings"
+    "lint:rust": "cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings",
+    "test:qa-plan": "node --experimental-strip-types scripts/verify-qa-plan.ts"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0"
