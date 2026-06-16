@@ -7,8 +7,8 @@ KeyHint는 Mac 파워유저와 개발자가 방금 실제로 누른 단축키를
 ## 현재 상태
 
 - 상태: Ralph 구현 단계 진행 중
-- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약, Tauri v2 scaffold, mock HUD 화면/상태 모델
-- 아직 없음: developer command 구현, native macOS event collector
+- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약, Tauri v2 scaffold, mock HUD 화면/상태 모델, developer command 구현
+- 아직 없음: native macOS event collector
 - 기준 문서:
   - [`docs/PRD.md`](docs/PRD.md)
   - [`docs/test-spec.md`](docs/test-spec.md)
@@ -17,7 +17,7 @@ KeyHint는 Mac 파워유저와 개발자가 방금 실제로 누른 단축키를
 
 ## 5분 Quickstart
 
-> Tauri scaffold가 생성되어 `npm install`, `npm run check`, `npm run build`, `npm run tauri:dev` 경로를 사용할 수 있습니다. Mock HUD 명령은 단계 4~5에서 실제 CLI로 연결됩니다.
+> Tauri scaffold와 developer command 표면이 생성되어 `npm install`, `npm run check`, `npm run build`, `npm run tauri:dev`, `npm run keyhint -- ...` 경로를 사용할 수 있습니다.
 
 ### 1. 저장소 확인
 
@@ -53,7 +53,7 @@ npm run dev
 - 권한이 없으면 실제 shortcut collector는 시작하지 않는다.
 - mock HUD preview는 권한 없이 볼 수 있다.
 
-### 4. 환경 진단 예정 경로
+### 4. 환경 진단
 
 ```bash
 npm run keyhint -- doctor
@@ -113,7 +113,7 @@ Open System Settings
 
 ### 현재 구현된 mock preview URL
 
-Tauri/native 권한 없이 Vite 화면에서 바로 확인할 수 있습니다.
+Tauri/native 권한 없이 Vite 화면과 CLI에서 바로 확인할 수 있습니다.
 
 ```text
 http://127.0.0.1:1420/?mock=known&shortcut=Command%2BP&app=Cursor&meaning=Go+to+File&source=imported+keybindings

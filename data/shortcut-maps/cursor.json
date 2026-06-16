@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "app": {
+    "bundleId": "com.todesktop.230313mzl4w4u92",
+    "displayName": "Cursor"
+  },
+  "source": {
+    "type": "seed",
+    "version": "2026.06.16-alpha",
+    "verifiedAt": "2026-06-16"
+  },
+  "shortcuts": [
+    {
+      "shortcut": "Command+P",
+      "meaning": "Go to File",
+      "confidence": "seed",
+      "rawTextStored": false
+    },
+    {
+      "shortcut": "Command+Shift+P",
+      "meaning": "Command Palette",
+      "confidence": "seed",
+      "rawTextStored": false
+    }
+  ]
+}
