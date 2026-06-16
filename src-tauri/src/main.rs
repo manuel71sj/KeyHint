@@ -1,3 +1,5 @@
+mod native;
+
 #[derive(serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 struct AppStatus {
@@ -17,9 +19,14 @@ fn app_status() -> AppStatus {
     }
 }
 
+#[tauri::command]
+fn event_collector_spike() -> native::event_collector::EventCollectorSpikeReport {
+    native::event_collector::spike_report()
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![app_status])
+        .invoke_handler(tauri::generate_handler![app_status, event_collector_spike])
         .run(tauri::generate_context!())
         .expect("error while running KeyHint");
 }

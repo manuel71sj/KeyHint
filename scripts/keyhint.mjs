@@ -54,7 +54,7 @@ function printJson(value) {
 }
 
 function help() {
-  process.stdout.write(`KeyHint developer commands\n\nUsage:\n  npm run keyhint -- doctor\n  npm run keyhint -- hud:test --shortcut Command+P --app Cursor\n  npm run keyhint -- permissions:check\n  npm run keyhint -- maps:validate\n  npm run keyhint -- diagnostics:redact [--out .tmp/diagnostics-redacted.json]\n\n`);
+  process.stdout.write(`KeyHint developer commands\n\nUsage:\n  npm run keyhint -- doctor\n  npm run keyhint -- hud:test --shortcut Command+P --app Cursor\n  npm run keyhint -- permissions:check\n  npm run keyhint -- maps:validate\n  npm run keyhint -- diagnostics:redact [--out .tmp/diagnostics-redacted.json]\n  npm run keyhint -- event:spike\n\n`);
 }
 
 function doctor() {
@@ -134,6 +134,28 @@ function mapsValidate() {
   if (!ok) process.exitCode = 1;
 }
 
+function eventSpike() {
+  printJson({
+    ok: true,
+    permissionState: 'not_determined',
+    supportedPermissionStates: ['not_determined', 'denied', 'granted', 'revoked_during_run', 'needs_restart'],
+    collectorStarted: false,
+    eventTapStrategy: 'CGEventTap listen-only spike; do not start without explicit permission flow',
+    callbackContract: 'enqueue sanitized compact event only; no matching, UI rendering, storage, or network in callback',
+    secureInputPolicy: 'pause and do not enqueue while Secure Event Input is active or suspected',
+    imePolicy: 'ignore IME composing/dead-key/plain-text candidates',
+    plainTextPolicy: 'ignore modifier-less typing and never persist raw text/raw key stream',
+    storesRawText: false,
+    manualChecks: [
+      'Input Monitoring grant/revoke/relaunch',
+      'Secure Event Input suppression',
+      'IME composing and dead key suppression',
+      'password field suppression',
+      '10x shortcut burst queue behavior',
+    ],
+  });
+}
+
 function diagnosticsRedact() {
   const out = readFlag('out');
   const diagnostics = {
@@ -176,6 +198,9 @@ switch (command) {
     break;
   case 'diagnostics:redact':
     diagnosticsRedact();
+    break;
+  case 'event:spike':
+    eventSpike();
     break;
   default:
     process.stderr.write(`Unknown keyhint command: ${command}\n\n`);

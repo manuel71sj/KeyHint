@@ -34,6 +34,12 @@ const maps = JSON.parse(run(['maps:validate']));
 assert.equal(maps.ok, true);
 assert.equal(maps.checked, 1);
 
+
+const eventSpike = JSON.parse(run(['event:spike']));
+assert.equal(eventSpike.collectorStarted, false);
+assert.equal(eventSpike.storesRawText, false);
+assert.match(eventSpike.callbackContract, /enqueue sanitized compact event only/);
+
 const out = '.tmp/diagnostics-redacted.json';
 run(['diagnostics:redact', '--out', out]);
 const redacted = JSON.parse(readFileSync(out, 'utf8'));
