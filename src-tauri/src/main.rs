@@ -29,9 +29,14 @@ fn active_app_spike() -> native::active_app::ActiveAppSpikeReport {
     native::active_app::spike_report()
 }
 
+#[tauri::command]
+fn hud_renderer_spike() -> native::hud_renderer::HudRendererSpikeReport {
+    native::hud_renderer::spike_report()
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![app_status, event_collector_spike, active_app_spike])
+        .invoke_handler(tauri::generate_handler![app_status, event_collector_spike, active_app_spike, hud_renderer_spike])
         .run(tauri::generate_context!())
         .expect("error while running KeyHint");
 }

@@ -36,6 +36,13 @@ assert.equal(maps.checked, 1);
 
 
 
+
+const renderer = JSON.parse(run(['renderer:matrix']));
+assert.equal(renderer.ok, true);
+assert.equal(renderer.maxWidthPx, 520);
+assert.ok(renderer.capabilities.some((item) => item.scenario === 'fullscreen_spaces' && item.primary === 'native_panel_fallback'));
+assert.match(renderer.focusPolicy, /never steal keyboard focus/);
+
 const activeApp = JSON.parse(run(['app:resolve']));
 assert.equal(activeApp.ok, true);
 assert.match(activeApp.state, /^(resolved|no_active_app|resolver_unavailable)$/);

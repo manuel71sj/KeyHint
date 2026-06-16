@@ -24,7 +24,7 @@
 | 5 | [x] | `$ralph` + DX | developer command 표면을 만든다 | `keyhint doctor`, `hud:test`, `maps:validate`, `diagnostics:redact` 또는 대응 script 동작 | 완료 — npm script 기반 keyhint developer command 구현 및 검증 |
 | 6 | [x] | `$ralph` + native spike | macOS event collector spike를 구현/문서화한다 | Input Monitoring/CGEventTap 가능성, secure input, IME, plain text 정책이 검증/기록됨 | 완료 — native event collector 정책 seam과 안전 필터 테스트 구현 |
 | 7 | [x] | `$ralph` | active app resolver spike를 구현/문서화한다 | foreground app bundle id, nil/stale 상태 처리가 검증/기록됨 | 완료 — active app resolver 상태 모델과 Unknown 저장 guard 구현 |
-| 8 | [ ] | `$ralph` + UI/native spike | HUD overlay와 native fallback 경계를 구현/문서화한다 | Tauri renderer와 native fallback capability matrix/테스트 체크리스트 존재 |  |
+| 8 | [x] | `$ralph` + UI/native spike | HUD overlay와 native fallback 경계를 구현/문서화한다 | Tauri renderer와 native fallback capability matrix/테스트 체크리스트 존재 | 완료 — HUD renderer interface와 native fallback capability matrix 구현 |
 | 9 | [ ] | `$ralplan` 후 `$ralph` | shortcut source resolver와 local store schema를 확정한다 | source precedence, UnknownCandidate, UserOverride, migration 계약과 테스트 존재 |  |
 | 10 | [ ] | `$ralph` | local Unknown inbox를 구현한다 | Unknown 저장/라벨/무시/import 흐름이 동작 |  |
 | 11 | [ ] | `$interface-design` 후 `$ralph` | Settings IA를 구현한다 | Status/Privacy/HUD/Sources/Unknowns/Apps/Diagnostics 화면 또는 scaffold 존재 |  |
@@ -123,3 +123,14 @@
 - 완료 보고: foreground app bundle id/display name resolver fallback을 확인하고, resolved/no_active_app/stale_context/resolver_unavailable 상태와 Unknown 저장 guard를 구현했다.
 - 검증 근거: `npm run app:resolve`가 `com.microsoft.teams2`/`MSTeams`를 resolved로 반환, `cargo test --manifest-path src-tauri/Cargo.toml active_app` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
 - 커밋: `c7d7968`
+
+
+### 단계 8 — HUD overlay와 native fallback 경계
+
+- 상태: 완료
+- 시작: 2026-06-16
+- 완료: 2026-06-16
+- 사용한 스킬/표면: `$ralph` + UI/native spike
+- 완료 보고: focus-safe `HudRenderer.show(state)` 계약과 Tauri/native fallback capability matrix를 Rust seam, CLI, 문서로 구현했다.
+- 검증 근거: `npm run renderer:matrix` 통과, `cargo test --manifest-path src-tauri/Cargo.toml hud_renderer` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
+- 커밋: 보정 예정

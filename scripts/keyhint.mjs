@@ -54,7 +54,7 @@ function printJson(value) {
 }
 
 function help() {
-  process.stdout.write(`KeyHint developer commands\n\nUsage:\n  npm run keyhint -- doctor\n  npm run keyhint -- hud:test --shortcut Command+P --app Cursor\n  npm run keyhint -- permissions:check\n  npm run keyhint -- maps:validate\n  npm run keyhint -- diagnostics:redact [--out .tmp/diagnostics-redacted.json]\n  npm run keyhint -- event:spike\n  npm run keyhint -- app:resolve\n\n`);
+  process.stdout.write(`KeyHint developer commands\n\nUsage:\n  npm run keyhint -- doctor\n  npm run keyhint -- hud:test --shortcut Command+P --app Cursor\n  npm run keyhint -- permissions:check\n  npm run keyhint -- maps:validate\n  npm run keyhint -- diagnostics:redact [--out .tmp/diagnostics-redacted.json]\n  npm run keyhint -- event:spike\n  npm run keyhint -- app:resolve\n  npm run keyhint -- renderer:matrix\n\n`);
 }
 
 function doctor() {
@@ -132,6 +132,24 @@ function mapsValidate() {
   const ok = results.length > 0 && results.every((result) => result.ok);
   printJson({ ok, checked: results.length, results });
   if (!ok) process.exitCode = 1;
+}
+
+function rendererMatrix() {
+  printJson({
+    ok: true,
+    interfaceContract: 'HudRenderer.show(state) must be non-interactive, focus-safe, and replace in-flight HUD state.',
+    focusPolicy: 'HUD must never steal keyboard focus; Settings owns editing and correction.',
+    defaultPosition: 'active display bottom-center above Dock/safe area',
+    maxWidthPx: 520,
+    capabilities: [
+      { scenario: 'standard_desktop', primary: 'tauri_window', fallback: 'native_panel_fallback', requiresManualCheck: false },
+      { scenario: 'fullscreen_spaces', primary: 'native_panel_fallback', fallback: 'tauri_window', requiresManualCheck: true },
+      { scenario: 'stage_manager', primary: 'native_panel_fallback', fallback: 'tauri_window', requiresManualCheck: true },
+      { scenario: 'multi_display', primary: 'tauri_window', fallback: 'native_panel_fallback', requiresManualCheck: true },
+      { scenario: 'remote_desktop', primary: 'native_panel_fallback', fallback: null, requiresManualCheck: true },
+      { scenario: 'reduced_motion', primary: 'tauri_window', fallback: 'native_panel_fallback', requiresManualCheck: false },
+    ],
+  });
 }
 
 function resolveActiveApp() {
@@ -242,6 +260,9 @@ switch (command) {
     break;
   case 'app:resolve':
     resolveActiveApp();
+    break;
+  case 'renderer:matrix':
+    rendererMatrix();
     break;
   default:
     process.stderr.write(`Unknown keyhint command: ${command}\n\n`);

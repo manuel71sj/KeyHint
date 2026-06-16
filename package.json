@@ -16,7 +16,7 @@
     "check": "npm run check:web && npm run check:tauri-manifest",
     "check:web": "tsc --noEmit",
     "check:tauri-manifest": "cargo metadata --manifest-path src-tauri/Cargo.toml --no-deps --format-version 1 >/dev/null",
-    "test": "npm run check && npm run test:mock-hud && npm run test:cli && npm run test:native:policy && npm run test:native:active-app",
+    "test": "npm run check && npm run test:mock-hud && npm run test:cli && npm run test:native:policy && npm run test:native:active-app && npm run test:native:renderer",
     "test:mock-hud": "node --experimental-strip-types scripts/verify-mock-hud.ts",
     "keyhint": "node scripts/keyhint.mjs",
     "doctor": "npm run keyhint -- doctor",
@@ -28,7 +28,9 @@
     "event:spike": "npm run keyhint -- event:spike",
     "test:native:policy": "cargo test --manifest-path src-tauri/Cargo.toml event_collector",
     "app:resolve": "npm run keyhint -- app:resolve",
-    "test:native:active-app": "cargo test --manifest-path src-tauri/Cargo.toml active_app"
+    "test:native:active-app": "cargo test --manifest-path src-tauri/Cargo.toml active_app",
+    "renderer:matrix": "npm run keyhint -- renderer:matrix",
+    "test:native:renderer": "cargo test --manifest-path src-tauri/Cargo.toml hud_renderer"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0"
