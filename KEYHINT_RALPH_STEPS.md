@@ -188,4 +188,4 @@
 - 사용한 스킬/표면: `$ralph` + tests
 - 완료 보고: shortcut normalizer, matcher precedence, shortcut event queue, permission recovery policy, diagnostics redaction을 자동화 테스트로 고정하고 문서화했다.
 - 검증 근거: `npm run test:automation-coverage` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
-- 커밋: `보정 예정`
+- 커밋: `1ddd3db`
