@@ -210,4 +210,4 @@
 - 사용한 스킬/표면: `$qa` 성격의 repo-local QA + `$ralph` 검증
 - 완료 보고: HUD known/unknown/permission, Settings IA, source maps, redaction, native matrix의 자동 smoke evidence와 fullscreen/Stage Manager/multi-display/secure input 등 수동 dogfood matrix를 `docs/qa-dogfood.md`에 기록했다.
 - 검증 근거: 네 개 Vite preview URL HTTP 200 확인, `npm run test:qa-plan` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, `npm run lint:rust` 통과. 실제 macOS 권한/Spaces/Stage Manager dogfood는 수동 QA로 남겼다.
-- 커밋: `보정 예정`
+- 커밋: `48a1623`
