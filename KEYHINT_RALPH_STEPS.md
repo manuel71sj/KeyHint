@@ -111,4 +111,4 @@
 - 완료 보고: 실제 CGEventTap 시작 없이 Input Monitoring/CGEventTap 가능성, Secure Input, IME/dead key, plain text 무시 정책을 Rust seam과 문서로 구현했다.
 - 검증 근거: `npm run event:spike` 통과, `cargo test --manifest-path src-tauri/Cargo.toml event_collector` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
 - 참고 근거: Apple Developer Quartz Event Services/CGEvent tap 문서, Apple Support Input Monitoring 문서.
-- 커밋: 보정 예정
+- 커밋: `8962d9e`
