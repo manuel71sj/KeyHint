@@ -166,4 +166,4 @@
 - 사용한 스킬/표면: `$interface-design` + `$ralph` 구현/검증
 - 완료 보고: KeyHint Settings를 generic preferences가 아니라 `Capture → Context → Meaning → Memory` keystroke ledger로 설계하고, Status/Privacy/HUD/Sources/Unknowns/Apps/Diagnostics scaffold를 앱 화면과 문서로 구현했다.
 - 검증 근거: `npm run test:settings-ia` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, Vite settings/unknowns/HUD preview URL HTTP 200 확인. `$visual-verdict`는 비교 기준 이미지가 없어 적용 대상이 아니었다.
-- 커밋: `보정 예정`
+- 커밋: `aae2cf9`
