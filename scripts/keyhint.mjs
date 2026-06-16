@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -54,7 +54,7 @@ function printJson(value) {
 }
 
 function help() {
-  process.stdout.write(`KeyHint developer commands\n\nUsage:\n  npm run keyhint -- doctor\n  npm run keyhint -- hud:test --shortcut Command+P --app Cursor\n  npm run keyhint -- permissions:check\n  npm run keyhint -- maps:validate\n  npm run keyhint -- diagnostics:redact [--out .tmp/diagnostics-redacted.json]\n  npm run keyhint -- event:spike\n  npm run keyhint -- app:resolve\n  npm run keyhint -- renderer:matrix\n\n`);
+  process.stdout.write(`KeyHint developer commands\n\nUsage:\n  npm run keyhint -- doctor\n  npm run keyhint -- hud:test --shortcut Command+P --app Cursor\n  npm run keyhint -- permissions:check\n  npm run keyhint -- maps:validate\n  npm run keyhint -- diagnostics:redact [--out .tmp/diagnostics-redacted.json]\n  npm run keyhint -- event:spike\n  npm run keyhint -- app:resolve\n  npm run keyhint -- renderer:matrix\n  npm run keyhint -- unknown:add --bundle-id com.todesktop.230313mzl4w4u92 --app Cursor --shortcut Command+Shift+X\n  npm run keyhint -- unknown:list\n  npm run keyhint -- unknown:label --id uc_xxxxxxxx --meaning \"Run selected command\"\n  npm run keyhint -- unknown:ignore --id uc_xxxxxxxx\n  npm run keyhint -- unknown:import --id uc_xxxxxxxx\n\n`);
 }
 
 function doctor() {
@@ -212,6 +212,184 @@ function eventSpike() {
   });
 }
 
+
+const SCHEMA_VERSION = 1;
+const TIMESTAMP_BUCKET_MS = 60 * 60 * 1000;
+const UNKNOWN_STORE_PATH = process.env.KEYHINT_STORE_PATH || join(root, '.keyhint', 'unknown-inbox.json');
+
+function coarseTimestampBucket(ms) {
+  const value = Number(ms);
+  if (!Number.isFinite(value)) throw new Error('timestamp must be finite');
+  return new Date(Math.floor(value / TIMESTAMP_BUCKET_MS) * TIMESTAMP_BUCKET_MS).toISOString();
+}
+
+function stableHash(input) {
+  let hash = 0x811c9dc5;
+  for (let index = 0; index < input.length; index += 1) {
+    hash ^= input.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash.toString(16).padStart(8, '0');
+}
+
+function stableIdentity(parts) {
+  return parts.map((part) => part ?? '').join('\u001f');
+}
+
+function createCandidateId({ bundleId, canonicalShortcut, appVersion, observedAtMs }) {
+  return `uc_${stableHash(stableIdentity([bundleId, canonicalShortcut, appVersion, coarseTimestampBucket(observedAtMs)]))}`;
+}
+
+function createOverrideId(bundleId, canonicalShortcut) {
+  return `uo_${stableHash(stableIdentity([bundleId, canonicalShortcut]))}`;
+}
+
+function readUnknownStore() {
+  if (!existsSync(UNKNOWN_STORE_PATH)) {
+    return { schemaVersion: SCHEMA_VERSION, items: [] };
+  }
+  return JSON.parse(readFileSync(UNKNOWN_STORE_PATH, 'utf8'));
+}
+
+function writeUnknownStore(store) {
+  mkdirSync(dirname(UNKNOWN_STORE_PATH), { recursive: true });
+  writeFileSync(UNKNOWN_STORE_PATH, `${JSON.stringify(store, null, 2)}\n`);
+}
+
+function sensitiveKeyExists(value) {
+  if (!value || typeof value !== 'object') return false;
+  for (const [key, child] of Object.entries(value)) {
+    if (key === 'rawText' || key === 'rawKeyStream' || key === 'password' || key === 'imeText') return true;
+    if (sensitiveKeyExists(child)) return true;
+  }
+  return false;
+}
+
+function assertNoSensitiveKeys(value) {
+  if (sensitiveKeyExists(value)) throw new Error('record contains a sensitive raw input key');
+}
+
+function findUnknownItem(store, id) {
+  const item = store.items.find((entry) => entry.candidate?.candidateId === id);
+  if (!item) throw new Error(`UnknownCandidate not found: ${id}`);
+  return item;
+}
+
+function replaceUnknownItem(store, item) {
+  assertNoSensitiveKeys(item);
+  return {
+    ...store,
+    items: store.items.map((entry) => (entry.candidate?.candidateId === item.candidate.candidateId ? item : entry)),
+  };
+}
+
+function summarizeUnknownStore(store) {
+  return {
+    schemaVersion: store.schemaVersion,
+    total: store.items.length,
+    new: store.items.filter((item) => item.status === 'new').length,
+    labeled: store.items.filter((item) => item.status === 'labeled').length,
+    ignored: store.items.filter((item) => item.status === 'ignored').length,
+    imported: store.items.filter((item) => item.status === 'imported').length,
+    rawTextStored: false,
+  };
+}
+
+function unknownAdd() {
+  const bundleId = String(readFlag('bundle-id', '')).trim();
+  const displayName = String(readFlag('app', '')).trim();
+  const shortcut = String(readFlag('shortcut', '')).trim();
+  const appVersion = readFlag('app-version');
+  const observedAtMs = Number(readFlag('observed-at', Date.now()));
+
+  if (!bundleId || !displayName || !shortcut) {
+    throw new Error('unknown:add requires --bundle-id, --app, and --shortcut');
+  }
+
+  const candidate = {
+    schemaVersion: SCHEMA_VERSION,
+    candidateId: createCandidateId({ bundleId, canonicalShortcut: shortcut, appVersion: typeof appVersion === 'string' ? appVersion : undefined, observedAtMs }),
+    bundleId,
+    displayName,
+    canonicalShortcut: shortcut,
+    ...(typeof appVersion === 'string' ? { appVersion } : {}),
+    observedAtBucket: coarseTimestampBucket(observedAtMs),
+    source: 'unknown',
+    rawTextStored: false,
+  };
+  assertNoSensitiveKeys(candidate);
+
+  const store = readUnknownStore();
+  const existing = store.items.find((item) => item.candidate?.candidateId === candidate.candidateId);
+  const item = existing
+    ? { ...existing, candidate, seenCount: existing.seenCount + 1 }
+    : { schemaVersion: SCHEMA_VERSION, candidate, status: 'new', seenCount: 1, rawTextStored: false };
+  const next = existing ? replaceUnknownItem(store, item) : { ...store, items: [...store.items, item] };
+  writeUnknownStore(next);
+  printJson({ ok: true, storePath: UNKNOWN_STORE_PATH, item, summary: summarizeUnknownStore(next) });
+}
+
+function unknownList() {
+  const store = readUnknownStore();
+  printJson({ ok: true, storePath: UNKNOWN_STORE_PATH, summary: summarizeUnknownStore(store), items: store.items });
+}
+
+function unknownLabel() {
+  const id = String(readFlag('id', '')).trim();
+  const meaning = String(readFlag('meaning', '')).trim();
+  const at = Number(readFlag('at', Date.now()));
+  if (!id || !meaning) throw new Error('unknown:label requires --id and --meaning');
+  const store = readUnknownStore();
+  const item = findUnknownItem(store, id);
+  const nextItem = {
+    ...item,
+    status: 'labeled',
+    label: { meaning, labeledAtBucket: coarseTimestampBucket(at) },
+    ignoredAtBucket: undefined,
+    importedAtBucket: undefined,
+    overrideId: undefined,
+  };
+  const next = replaceUnknownItem(store, nextItem);
+  writeUnknownStore(next);
+  printJson({ ok: true, storePath: UNKNOWN_STORE_PATH, item: nextItem, summary: summarizeUnknownStore(next) });
+}
+
+function unknownIgnore() {
+  const id = String(readFlag('id', '')).trim();
+  const at = Number(readFlag('at', Date.now()));
+  if (!id) throw new Error('unknown:ignore requires --id');
+  const store = readUnknownStore();
+  const item = findUnknownItem(store, id);
+  const nextItem = { ...item, status: 'ignored', ignoredAtBucket: coarseTimestampBucket(at) };
+  const next = replaceUnknownItem(store, nextItem);
+  writeUnknownStore(next);
+  printJson({ ok: true, storePath: UNKNOWN_STORE_PATH, item: nextItem, summary: summarizeUnknownStore(next) });
+}
+
+function unknownImport() {
+  const id = String(readFlag('id', '')).trim();
+  const at = Number(readFlag('at', Date.now()));
+  if (!id) throw new Error('unknown:import requires --id');
+  const store = readUnknownStore();
+  const item = findUnknownItem(store, id);
+  if (!item.label?.meaning) throw new Error('UnknownCandidate must be labeled before import');
+  const override = {
+    schemaVersion: SCHEMA_VERSION,
+    overrideId: createOverrideId(item.candidate.bundleId, item.candidate.canonicalShortcut),
+    bundleId: item.candidate.bundleId,
+    displayName: item.candidate.displayName,
+    canonicalShortcut: item.candidate.canonicalShortcut,
+    meaning: item.label.meaning,
+    source: 'user_override',
+    updatedAtBucket: coarseTimestampBucket(at),
+    rawTextStored: false,
+  };
+  const nextItem = { ...item, status: 'imported', importedAtBucket: coarseTimestampBucket(at), overrideId: override.overrideId };
+  const next = replaceUnknownItem(store, nextItem);
+  writeUnknownStore(next);
+  printJson({ ok: true, storePath: UNKNOWN_STORE_PATH, item: nextItem, override, summary: summarizeUnknownStore(next) });
+}
+
 function diagnosticsRedact() {
   const out = readFlag('out');
   const diagnostics = {
@@ -226,7 +404,7 @@ function diagnosticsRedact() {
   };
   if (typeof out === 'string') {
     const target = join(root, out);
-    mkdirSync(join(target, '..'), { recursive: true });
+    mkdirSync(dirname(target), { recursive: true });
     writeFileSync(target, JSON.stringify(diagnostics, null, 2));
     process.stdout.write(`${target}\n`);
     return;
@@ -263,6 +441,21 @@ switch (command) {
     break;
   case 'renderer:matrix':
     rendererMatrix();
+    break;
+  case 'unknown:add':
+    unknownAdd();
+    break;
+  case 'unknown:list':
+    unknownList();
+    break;
+  case 'unknown:label':
+    unknownLabel();
+    break;
+  case 'unknown:ignore':
+    unknownIgnore();
+    break;
+  case 'unknown:import':
+    unknownImport();
     break;
   default:
     process.stderr.write(`Unknown keyhint command: ${command}\n\n`);

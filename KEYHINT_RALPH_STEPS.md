@@ -26,7 +26,7 @@
 | 7 | [x] | `$ralph` | active app resolver spike를 구현/문서화한다 | foreground app bundle id, nil/stale 상태 처리가 검증/기록됨 | 완료 — active app resolver 상태 모델과 Unknown 저장 guard 구현 |
 | 8 | [x] | `$ralph` + UI/native spike | HUD overlay와 native fallback 경계를 구현/문서화한다 | Tauri renderer와 native fallback capability matrix/테스트 체크리스트 존재 | 완료 — HUD renderer interface와 native fallback capability matrix 구현 |
 | 9 | [x] | `$ralplan` 후 `$ralph` | shortcut source resolver와 local store schema를 확정한다 | source precedence, UnknownCandidate, UserOverride, migration 계약과 테스트 존재 | 완료 — source precedence와 local store schema/resolver 계약 구현 및 검증 |
-| 10 | [ ] | `$ralph` | local Unknown inbox를 구현한다 | Unknown 저장/라벨/무시/import 흐름이 동작 |  |
+| 10 | [x] | `$ralph` | local Unknown inbox를 구현한다 | Unknown 저장/라벨/무시/import 흐름이 동작 | 완료 — Unknown 저장/라벨/무시/import 흐름 구현 및 CLI 검증 |
 | 11 | [ ] | `$interface-design` 후 `$ralph` | Settings IA를 구현한다 | Status/Privacy/HUD/Sources/Unknowns/Apps/Diagnostics 화면 또는 scaffold 존재 |  |
 | 12 | [ ] | `$ralph` + docs | privacy/troubleshooting/release 문서를 작성한다 | `docs/privacy.md`, `docs/troubleshooting.md`, `docs/release.md` 존재 |  |
 | 13 | [ ] | `$ralph` + tests | 테스트 계획을 자동화 테스트로 반영한다 | normalizer/matcher/queue/permission/redaction 테스트 존재 |  |
@@ -145,3 +145,14 @@
 - 완료 보고: Architect/Critic consensus로 identity/freshness/migration/redaction 계약을 확정한 뒤, TypeScript-first local store schema와 source resolver, 검증 스크립트, 문서를 구현했다.
 - 검증 근거: `npm run test:source-resolver` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과. 검증은 source precedence, deterministic `candidateId`/`overrideId`, unresolved/stale Unknown 저장 차단, migration dry-run, diagnostics redaction을 포함한다.
 - 커밋: `1517ea6`
+
+
+### 단계 10 — local Unknown inbox
+
+- 상태: 완료
+- 시작: 2026-06-16
+- 완료: 2026-06-16
+- 사용한 스킬/표면: `$ralph` 구현/검증
+- 완료 보고: `UnknownCandidate`를 로컬 inbox에 저장하고, 라벨링/무시/import로 `UserOverride`까지 승격하는 pure TypeScript 흐름과 `keyhint unknown:*` CLI 계약을 구현했다.
+- 검증 근거: `npm run test:unknown-inbox` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과. 검증은 duplicate `candidateId` de-dupe, `seenCount`, labeled/imported/ignored 상태 전이, CLI store path, raw sensitive key 미저장을 포함한다.
+- 커밋: `보정 예정`

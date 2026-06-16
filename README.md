@@ -7,7 +7,7 @@ KeyHint는 Mac 파워유저와 개발자가 방금 실제로 누른 단축키를
 ## 현재 상태
 
 - 상태: Ralph 구현 단계 진행 중
-- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약, Tauri v2 scaffold, mock HUD 화면/상태 모델, developer command 구현, native event collector policy spike, active app resolver policy spike, HUD renderer fallback matrix, source resolver/local store schema
+- 현재 완료: PRD, 테스트 스펙, 구현 계획, README quickstart 계약, Tauri v2 scaffold, mock HUD 화면/상태 모델, developer command 구현, native event collector policy spike, active app resolver policy spike, HUD renderer fallback matrix, source resolver/local store schema, local Unknown inbox
 - 아직 없음: 실제 CGEventTap 시작/권한 플로우, 실제 native NSPanel 표시
 - 기준 문서:
   - [`docs/PRD.md`](docs/PRD.md)
@@ -17,6 +17,7 @@ KeyHint는 Mac 파워유저와 개발자가 방금 실제로 누른 단축키를
   - [`docs/active-app-resolver-spike.md`](docs/active-app-resolver-spike.md)
   - [`docs/hud-renderer-fallback.md`](docs/hud-renderer-fallback.md)
   - [`docs/shortcut-maps.md`](docs/shortcut-maps.md)
+  - [`docs/unknown-inbox.md`](docs/unknown-inbox.md)
   - [`KEYHINT_RALPH_STEPS.md`](KEYHINT_RALPH_STEPS.md)
 
 ## 5분 Quickstart
@@ -155,6 +156,11 @@ keyhint hud:test --shortcut Command+P --app Cursor
 keyhint permissions:check
 keyhint maps:validate
 keyhint diagnostics:redact
+keyhint unknown:add --bundle-id com.todesktop.230313mzl4w4u92 --app Cursor --shortcut Command+Shift+X
+keyhint unknown:list
+keyhint unknown:label --id uc_xxxxxxxx --meaning "Run selected command"
+keyhint unknown:ignore --id uc_xxxxxxxx
+keyhint unknown:import --id uc_xxxxxxxx
 ```
 
 Tauri scaffold 전까지는 `npm run keyhint -- <command>` 형태로 동일 계약을 제공할 수 있습니다.
@@ -184,4 +190,4 @@ Docs: docs/troubleshooting.md#input-monitoring
 
 ## 구현 순서
 
-전체 순서는 [`KEYHINT_RALPH_STEPS.md`](KEYHINT_RALPH_STEPS.md)를 따릅니다. 다음 단계는 local Unknown inbox 구현입니다.
+전체 순서는 [`KEYHINT_RALPH_STEPS.md`](KEYHINT_RALPH_STEPS.md)를 따릅니다. 다음 단계는 Settings IA 구현입니다.
