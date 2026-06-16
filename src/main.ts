@@ -1,5 +1,6 @@
 import { invoke } from '@tauri-apps/api/core';
 import { createMockHudState, type MockHudMode, type MockHudState } from './keyhint/mockHud';
+import { getSettingsSection, settingsDirection, settingsSections, type SettingsSection } from './keyhint/settingsIa';
 import './styles.css';
 
 type KeyHintStatus = {
@@ -58,7 +59,63 @@ function renderHud(state: MockHudState) {
   `;
 }
 
-function render(status: KeyHintStatus, hud: MockHudState) {
+function readView(): 'home' | 'settings' {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('view') === 'settings' ? 'settings' : 'home';
+}
+
+function renderSettingsSection(section: SettingsSection) {
+  const proof = section.proofPoints.map((point) => `<li>${point}</li>`).join('');
+  return `
+    <article class="settings-panel settings-panel--${section.statusTone}">
+      <p class="panel-kicker">${section.label}</p>
+      <h2>${section.title}</h2>
+      <p>${section.intent}</p>
+      <div class="task-strip"><span>User task</span><strong>${section.userTask}</strong></div>
+      <div class="task-strip"><span>Primary action</span><strong>${section.primaryAction}</strong></div>
+      <ul>${proof}</ul>
+    </article>
+  `;
+}
+
+function settingsHref(id: string) {
+  const search = new URLSearchParams({ view: 'settings', section: id });
+  return `?${search.toString()}`;
+}
+
+function renderSettings() {
+  const params = new URLSearchParams(window.location.search);
+  const active = getSettingsSection(params.get('section'));
+  const nav = settingsSections
+    .map((section, index) => `<a class="rail-step ${section.id === active.id ? 'rail-step--active' : ''}" href="${settingsHref(section.id)}"><span>${String(index + 1).padStart(2, '0')}</span>${section.label}</a>`)
+    .join('');
+  const defaults = settingsDirection.rejectedDefaults
+    .map((item) => `<li><span>${item.default}</span><strong>${item.replacement}</strong></li>`)
+    .join('');
+
+  root.innerHTML = `
+    <section class="settings-shell" aria-labelledby="settings-title">
+      <div class="settings-hero">
+        <p class="eyebrow">KeyHint Settings IA</p>
+        <h1 id="settings-title">Keystroke ledger, not shortcut dictionary</h1>
+        <p class="lede">${settingsDirection.signature}</p>
+        <a class="home-link" href="?mock=known">Back to HUD preview</a>
+      </div>
+
+      <div class="settings-grid">
+        <nav class="settings-rail" aria-label="Settings sections">${nav}</nav>
+        ${renderSettingsSection(active)}
+        <aside class="signature-card" aria-labelledby="signature-title">
+          <p class="panel-kicker">Signature</p>
+          <h2 id="signature-title">Capture → Context → Meaning → Memory</h2>
+          <ul>${defaults}</ul>
+        </aside>
+      </div>
+    </section>
+  `;
+}
+
+function renderHome(status: KeyHintStatus, hud: MockHudState) {
   root.innerHTML = `
     <section class="shell" aria-labelledby="title">
       <p class="eyebrow">Local Mac shortcut memory layer</p>
@@ -71,6 +128,7 @@ function render(status: KeyHintStatus, hud: MockHudState) {
         <a href="${demoHref('known', { shortcut: 'Command+P', app: 'Cursor', meaning: 'Go to File', source: 'imported keybindings' })}">Known</a>
         <a href="${demoHref('unknown', { shortcut: 'Command+Shift+X', app: 'Cursor' })}">Unknown</a>
         <a href="${demoHref('permission')}">Permission missing</a>
+        <a href="?view=settings">Settings IA</a>
       </nav>
 
       <dl class="status-grid">
@@ -93,5 +151,17 @@ function render(status: KeyHintStatus, hud: MockHudState) {
 }
 
 loadStatus()
-  .then((status) => render(status, readMockHudState()))
-  .catch(() => render(fallbackStatus, readMockHudState()));
+  .then((status) => {
+    if (readView() === 'settings') {
+      renderSettings();
+      return;
+    }
+    renderHome(status, readMockHudState());
+  })
+  .catch(() => {
+    if (readView() === 'settings') {
+      renderSettings();
+      return;
+    }
+    renderHome(fallbackStatus, readMockHudState());
+  });
