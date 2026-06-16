@@ -199,4 +199,4 @@
 - 사용한 스킬/표면: `$code-review` + architect verification + `$ralph` fix/reverify
 - 완료 보고: 독립 code-reviewer가 최초 `REQUEST CHANGES`, architect가 `WATCH`를 반환한 뒤 XSS/CSP, Rust freshness, CLI write path, shortcut map schema drift, scripts typecheck, clippy, diagnostics wording을 보정했다. 재리뷰에서 code-reviewer `APPROVE`, architect `CLEAR`를 받았다.
 - 검증 근거: `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, `npm run lint:rust` 통과, `npm run maps:validate` 통과, `git diff --check` 통과.
-- 커밋: `보정 예정`
+- 커밋: `b464695`
