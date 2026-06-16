@@ -155,4 +155,4 @@
 - 사용한 스킬/표면: `$ralph` 구현/검증
 - 완료 보고: `UnknownCandidate`를 로컬 inbox에 저장하고, 라벨링/무시/import로 `UserOverride`까지 승격하는 pure TypeScript 흐름과 `keyhint unknown:*` CLI 계약을 구현했다.
 - 검증 근거: `npm run test:unknown-inbox` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과. 검증은 duplicate `candidateId` de-dupe, `seenCount`, labeled/imported/ignored 상태 전이, CLI store path, raw sensitive key 미저장을 포함한다.
-- 커밋: `보정 예정`
+- 커밋: `a1067b5`
