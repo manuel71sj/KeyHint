@@ -133,4 +133,4 @@
 - 사용한 스킬/표면: `$ralph` + UI/native spike
 - 완료 보고: focus-safe `HudRenderer.show(state)` 계약과 Tauri/native fallback capability matrix를 Rust seam, CLI, 문서로 구현했다.
 - 검증 근거: `npm run renderer:matrix` 통과, `cargo test --manifest-path src-tauri/Cargo.toml hud_renderer` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
-- 커밋: 보정 예정
+- 커밋: `4977ca5`
