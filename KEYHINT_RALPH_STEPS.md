@@ -77,4 +77,4 @@
 - 완료 보고: 공식 Tauri v2 create/develop/configuration 문서를 확인하고 Vanilla TypeScript + Tauri v2 scaffold를 생성했다.
 - 검증 근거: `npm run check` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, `cargo check --manifest-path src-tauri/Cargo.toml` 통과, scaffold 필수 파일과 `dev`/`tauri`/`tauri:dev`/`check`/`test`/`build` scripts 존재 확인.
 - 참고 근거: Tauri v2 Create a Project, Develop, Configuration Files 공식 문서.
-- 커밋: 보정 예정
+- 커밋: `548e16e`
