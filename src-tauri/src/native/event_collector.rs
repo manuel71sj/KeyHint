@@ -8,6 +8,7 @@ pub enum PermissionState {
     NeedsRestart,
 }
 
+#[cfg(test)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum FilterDecision {
@@ -19,6 +20,7 @@ pub enum FilterDecision {
     IgnoreNoModifier,
 }
 
+#[cfg(test)]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CandidateKeyEvent {
     pub key: String,
@@ -29,6 +31,7 @@ pub struct CandidateKeyEvent {
     pub plain_text_input: bool,
 }
 
+#[cfg(test)]
 #[derive(Debug, Clone, PartialEq, Eq, serde::Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SanitizedKeyEvent {
@@ -51,6 +54,7 @@ pub struct EventCollectorSpikeReport {
     pub manual_checks: Vec<&'static str>,
 }
 
+#[cfg(test)]
 pub fn classify_event(event: &CandidateKeyEvent) -> FilterDecision {
     if event.secure_input_active {
         return FilterDecision::IgnoreSecureInput;
@@ -70,6 +74,7 @@ pub fn classify_event(event: &CandidateKeyEvent) -> FilterDecision {
     FilterDecision::Enqueue
 }
 
+#[cfg(test)]
 pub fn sanitize_event(event: &CandidateKeyEvent) -> Option<SanitizedKeyEvent> {
     if classify_event(event) != FilterDecision::Enqueue {
         return None;

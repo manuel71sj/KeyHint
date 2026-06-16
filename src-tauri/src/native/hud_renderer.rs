@@ -93,6 +93,7 @@ pub fn spike_report() -> HudRendererSpikeReport {
     }
 }
 
+#[cfg(test)]
 pub fn requires_native_fallback(scenario: HudScenario) -> bool {
     capability_matrix()
         .into_iter()

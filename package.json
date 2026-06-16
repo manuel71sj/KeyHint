@@ -13,10 +13,10 @@
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
-    "check": "npm run check:web && npm run check:tauri-manifest",
+    "check": "npm run check:web && npm run check:scripts && npm run check:tauri-manifest",
     "check:web": "tsc --noEmit",
     "check:tauri-manifest": "cargo metadata --manifest-path src-tauri/Cargo.toml --no-deps --format-version 1 >/dev/null",
-    "test": "npm run check && npm run test:mock-hud && npm run test:cli && npm run test:source-resolver && npm run test:unknown-inbox && npm run test:settings-ia && npm run test:docs && npm run test:automation-coverage && npm run test:native:policy && npm run test:native:active-app && npm run test:native:renderer",
+    "test": "npm run check && npm run test:mock-hud && npm run test:cli && npm run test:source-resolver && npm run test:unknown-inbox && npm run test:settings-ia && npm run test:docs && npm run test:automation-coverage && npm run test:render-safety && npm run test:native:policy && npm run test:native:active-app && npm run test:native:renderer",
     "test:mock-hud": "node --experimental-strip-types scripts/verify-mock-hud.ts",
     "keyhint": "node scripts/keyhint.mjs",
     "doctor": "npm run keyhint -- doctor",
@@ -35,7 +35,10 @@
     "test:unknown-inbox": "node --experimental-strip-types scripts/verify-unknown-inbox.ts",
     "test:settings-ia": "node --experimental-strip-types scripts/verify-settings-ia.ts",
     "test:docs": "node --experimental-strip-types scripts/verify-docs.ts",
-    "test:automation-coverage": "node --experimental-strip-types scripts/verify-automation-coverage.ts"
+    "test:automation-coverage": "node --experimental-strip-types scripts/verify-automation-coverage.ts",
+    "check:scripts": "tsc --project tsconfig.scripts.json",
+    "test:render-safety": "node --experimental-strip-types scripts/verify-render-safety.ts",
+    "lint:rust": "cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.0.0"
@@ -43,6 +46,7 @@
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0",
     "typescript": "^5.6.0",
-    "vite": "^8.0.16"
+    "vite": "^8.0.16",
+    "@types/node": "^25.0.0"
   }
 }

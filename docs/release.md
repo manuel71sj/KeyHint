@@ -42,7 +42,7 @@
 - [ ] 앱 실행 중 외부 네트워크 요청 없음
 - [ ] shortcut memory local path 확인
 - [ ] Unknown inbox local path 확인
-- [ ] diagnostics export에 `rawText`/`rawKeyStream` 미포함
+- [ ] diagnostics export에서 `rawText`/`rawKeyStream` payload는 `[REDACTED]`로만 표시
 
 ## Release notes template
 

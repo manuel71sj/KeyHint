@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { dirname, join, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
@@ -19,6 +19,24 @@ const MODIFIER_SYMBOLS = {
   ctrl: '⌃',
   fn: 'fn',
 };
+
+
+function isInside(child, parent) {
+  const rel = relative(parent, child);
+  return rel === '' || (!rel.startsWith('..') && !rel.startsWith('/'));
+}
+
+function safeWritablePath(requestedPath, allowedDirs, allowEnvName) {
+  const target = resolve(root, requestedPath);
+  if (process.env[allowEnvName] === '1') {
+    return target;
+  }
+  const allowed = allowedDirs.map((dir) => resolve(root, dir));
+  if (allowed.some((dir) => isInside(target, dir))) {
+    return target;
+  }
+  throw new Error(`${requestedPath} is outside allowed local paths: ${allowedDirs.join(', ')}. Set ${allowEnvName}=1 for explicit test-only external writes.`);
+}
 
 function normalizeShortcut(input = 'Command+P') {
   return input
@@ -116,10 +134,15 @@ function validateShortcutMap(mapPath) {
   if (parsed.schemaVersion !== 1) errors.push('schemaVersion must be 1');
   if (!parsed.app?.bundleId) errors.push('app.bundleId is required');
   if (!parsed.app?.displayName) errors.push('app.displayName is required');
+  if (!parsed.source?.kind) errors.push('source.kind is required');
+  if (parsed.source?.type) errors.push('source.type is deprecated; use source.kind');
   if (!Array.isArray(parsed.shortcuts)) errors.push('shortcuts must be an array');
   for (const [index, shortcut] of (parsed.shortcuts ?? []).entries()) {
-    if (!shortcut.shortcut) errors.push(`shortcuts[${index}].shortcut is required`);
+    if (!shortcut.canonicalShortcut) errors.push(`shortcuts[${index}].canonicalShortcut is required`);
+    if (shortcut.shortcut) errors.push(`shortcuts[${index}].shortcut is deprecated; use canonicalShortcut`);
     if (!shortcut.meaning) errors.push(`shortcuts[${index}].meaning is required`);
+    if (!shortcut.source?.kind) errors.push(`shortcuts[${index}].source.kind is required`);
+    if (shortcut.source?.type) errors.push(`shortcuts[${index}].source.type is deprecated; use source.kind`);
     if (shortcut.rawTextStored !== false) errors.push(`shortcuts[${index}].rawTextStored must be false`);
   }
   return { file: mapPath, ok: errors.length === 0, errors };
@@ -215,7 +238,7 @@ function eventSpike() {
 
 const SCHEMA_VERSION = 1;
 const TIMESTAMP_BUCKET_MS = 60 * 60 * 1000;
-const UNKNOWN_STORE_PATH = process.env.KEYHINT_STORE_PATH || join(root, '.keyhint', 'unknown-inbox.json');
+const UNKNOWN_STORE_PATH = safeWritablePath(process.env.KEYHINT_STORE_PATH || join('.keyhint', 'unknown-inbox.json'), ['.keyhint', '.tmp'], 'KEYHINT_ALLOW_EXTERNAL_STORE');
 
 function coarseTimestampBucket(ms) {
   const value = Number(ms);
@@ -403,7 +426,7 @@ function diagnosticsRedact() {
     permissions: { inputMonitoring: 'manual_check_required' },
   };
   if (typeof out === 'string') {
-    const target = join(root, out);
+    const target = safeWritablePath(out, ['.tmp'], 'KEYHINT_ALLOW_EXTERNAL_DIAGNOSTICS_OUT');
     mkdirSync(dirname(target), { recursive: true });
     writeFileSync(target, JSON.stringify(diagnostics, null, 2));
     process.stdout.write(`${target}\n`);

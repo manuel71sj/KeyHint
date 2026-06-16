@@ -6,6 +6,15 @@ function run(args) {
   return execFileSync('node', ['scripts/keyhint.mjs', ...args], { encoding: 'utf8' });
 }
 
+function runExpectFailure(args, options = {}) {
+  try {
+    execFileSync('node', ['scripts/keyhint.mjs', ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...options });
+  } catch (error) {
+    return `${error.stdout ?? ''}${error.stderr ?? ''}`;
+  }
+  throw new Error(`expected failure for ${args.join(' ')}`);
+}
+
 const doctor = JSON.parse(run(['doctor']));
 assert.equal(doctor.ok, true);
 assert.equal(doctor.localOnly, true);
@@ -60,6 +69,14 @@ run(['diagnostics:redact', '--out', out]);
 const redacted = JSON.parse(readFileSync(out, 'utf8'));
 assert.equal(redacted.rawText, '[REDACTED]');
 assert.equal(redacted.rawKeyStream, '[REDACTED]');
+const traversal = runExpectFailure(['diagnostics:redact', '--out', '../keyhint-outside.json']);
+assert.match(traversal, /outside allowed local paths/);
+
+const externalStore = runExpectFailure(['unknown:add', '--bundle-id', 'com.example.App', '--app', 'Example', '--shortcut', 'Command+K'], {
+  env: { ...process.env, KEYHINT_STORE_PATH: '/tmp/keyhint-outside.json' },
+});
+assert.match(externalStore, /outside allowed local paths/);
+
 rmSync('.tmp', { recursive: true, force: true });
 
 console.log('keyhint CLI contract ok');

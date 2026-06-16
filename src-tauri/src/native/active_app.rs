@@ -36,7 +36,7 @@ pub fn can_store_unknown_candidate(context: &ActiveAppContext, event_observed_at
     if context.display_name.as_deref().unwrap_or_default().is_empty() {
         return false;
     }
-    context.observed_at_ms >= event_observed_at_ms.saturating_sub(250)
+    context.observed_at_ms.abs_diff(event_observed_at_ms) <= 250
 }
 
 pub fn spike_report() -> ActiveAppSpikeReport {
@@ -96,6 +96,10 @@ mod tests {
 
         let context = resolved_context();
         assert!(!can_store_unknown_candidate(&context, 2_000));
+
+        let mut context = resolved_context();
+        context.observed_at_ms = 2_000;
+        assert!(!can_store_unknown_candidate(&context, 1_000));
     }
 
     #[test]

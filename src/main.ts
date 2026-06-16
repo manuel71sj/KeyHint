@@ -1,4 +1,5 @@
 import { invoke } from '@tauri-apps/api/core';
+import { escapeHtml } from './keyhint/htmlEscape';
 import { createMockHudState, type MockHudMode, type MockHudState } from './keyhint/mockHud';
 import { getSettingsSection, settingsDirection, settingsSections, type SettingsSection } from './keyhint/settingsIa';
 import './styles.css';
@@ -51,10 +52,10 @@ function demoHref(mode: MockHudMode, params: Record<string, string> = {}) {
 
 function renderHud(state: MockHudState) {
   return `
-    <div class="hud hud--${state.mode}" role="status" aria-live="polite" data-mock-hud="${state.mode}">
-      <strong>${state.headline}</strong>
-      <kbd>${state.shortcut}</kbd>
-      <span>${state.meta}</span>
+    <div class="hud hud--${escapeHtml(state.mode)}" role="status" aria-live="polite" data-mock-hud="${escapeHtml(state.mode)}">
+      <strong>${escapeHtml(state.headline)}</strong>
+      <kbd>${escapeHtml(state.shortcut)}</kbd>
+      <span>${escapeHtml(state.meta)}</span>
     </div>
   `;
 }
@@ -65,14 +66,14 @@ function readView(): 'home' | 'settings' {
 }
 
 function renderSettingsSection(section: SettingsSection) {
-  const proof = section.proofPoints.map((point) => `<li>${point}</li>`).join('');
+  const proof = section.proofPoints.map((point) => `<li>${escapeHtml(point)}</li>`).join('');
   return `
-    <article class="settings-panel settings-panel--${section.statusTone}">
-      <p class="panel-kicker">${section.label}</p>
-      <h2>${section.title}</h2>
-      <p>${section.intent}</p>
-      <div class="task-strip"><span>User task</span><strong>${section.userTask}</strong></div>
-      <div class="task-strip"><span>Primary action</span><strong>${section.primaryAction}</strong></div>
+    <article class="settings-panel settings-panel--${escapeHtml(section.statusTone)}">
+      <p class="panel-kicker">${escapeHtml(section.label)}</p>
+      <h2>${escapeHtml(section.title)}</h2>
+      <p>${escapeHtml(section.intent)}</p>
+      <div class="task-strip"><span>User task</span><strong>${escapeHtml(section.userTask)}</strong></div>
+      <div class="task-strip"><span>Primary action</span><strong>${escapeHtml(section.primaryAction)}</strong></div>
       <ul>${proof}</ul>
     </article>
   `;
@@ -87,10 +88,10 @@ function renderSettings() {
   const params = new URLSearchParams(window.location.search);
   const active = getSettingsSection(params.get('section'));
   const nav = settingsSections
-    .map((section, index) => `<a class="rail-step ${section.id === active.id ? 'rail-step--active' : ''}" href="${settingsHref(section.id)}"><span>${String(index + 1).padStart(2, '0')}</span>${section.label}</a>`)
+    .map((section, index) => `<a class="rail-step ${section.id === active.id ? 'rail-step--active' : ''}" href="${settingsHref(section.id)}"><span>${String(index + 1).padStart(2, '0')}</span>${escapeHtml(section.label)}</a>`)
     .join('');
   const defaults = settingsDirection.rejectedDefaults
-    .map((item) => `<li><span>${item.default}</span><strong>${item.replacement}</strong></li>`)
+    .map((item) => `<li><span>${escapeHtml(item.default)}</span><strong>${escapeHtml(item.replacement)}</strong></li>`)
     .join('');
 
   root.innerHTML = `
@@ -98,7 +99,7 @@ function renderSettings() {
       <div class="settings-hero">
         <p class="eyebrow">KeyHint Settings IA</p>
         <h1 id="settings-title">Keystroke ledger, not shortcut dictionary</h1>
-        <p class="lede">${settingsDirection.signature}</p>
+        <p class="lede">${escapeHtml(settingsDirection.signature)}</p>
         <a class="home-link" href="?mock=known">Back to HUD preview</a>
       </div>
 
@@ -132,9 +133,9 @@ function renderHome(status: KeyHintStatus, hud: MockHudState) {
       </nav>
 
       <dl class="status-grid">
-        <div><dt>Local only</dt><dd>${status.localOnly ? 'Yes' : 'No'}</dd></div>
-        <div><dt>Input Monitoring</dt><dd>${status.inputMonitoring}</dd></div>
-        <div><dt>Mock HUD</dt><dd>${status.mockHudAvailable ? 'Available' : 'Unavailable'}</dd></div>
+        <div><dt>Local only</dt><dd>${escapeHtml(status.localOnly ? 'Yes' : 'No')}</dd></div>
+        <div><dt>Input Monitoring</dt><dd>${escapeHtml(status.inputMonitoring)}</dd></div>
+        <div><dt>Mock HUD</dt><dd>${escapeHtml(status.mockHudAvailable ? 'Available' : 'Unavailable')}</dd></div>
       </dl>
 
       <section class="contract" aria-labelledby="contract-title">

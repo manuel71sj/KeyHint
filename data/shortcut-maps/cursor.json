@@ -5,22 +5,34 @@
     "displayName": "Cursor"
   },
   "source": {
-    "type": "seed",
     "version": "2026.06.16-alpha",
-    "verifiedAt": "2026-06-16"
+    "verifiedAt": "2026-06-16",
+    "kind": "seed_map"
   },
   "shortcuts": [
     {
-      "shortcut": "Command+P",
       "meaning": "Go to File",
       "confidence": "seed",
-      "rawTextStored": false
+      "rawTextStored": false,
+      "canonicalShortcut": "Command+P",
+      "source": {
+        "version": "2026.06.16-alpha",
+        "verifiedAt": "2026-06-16",
+        "kind": "seed_map",
+        "rawTextStored": false
+      }
     },
     {
-      "shortcut": "Command+Shift+P",
       "meaning": "Command Palette",
       "confidence": "seed",
-      "rawTextStored": false
+      "rawTextStored": false,
+      "canonicalShortcut": "Command+Shift+P",
+      "source": {
+        "version": "2026.06.16-alpha",
+        "verifiedAt": "2026-06-16",
+        "kind": "seed_map",
+        "rawTextStored": false
+      }
     }
   ]
 }

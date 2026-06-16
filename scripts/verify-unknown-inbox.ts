@@ -23,7 +23,7 @@ const context: ActiveAppContext = {
   appVersion: '1.0.0',
 };
 const candidate = createUnknownCandidate({ context, canonicalShortcut: 'Command+Shift+X', eventObservedAtMs: observedAtMs });
-assert.ok(candidate);
+if (!candidate) throw new Error('expected fresh unknown candidate');
 
 let inbox = createEmptyUnknownInbox();
 inbox = addUnknownCandidate(inbox, candidate);
@@ -52,7 +52,7 @@ assert.equal(summarizeUnknownInbox(inbox).imported, 1);
 assert.equal(listActionableUnknowns(inbox).length, 0);
 
 const ignoredCandidate = createUnknownCandidate({ context, canonicalShortcut: 'Command+Option+I', eventObservedAtMs: observedAtMs });
-assert.ok(ignoredCandidate);
+if (!ignoredCandidate) throw new Error('expected fresh ignored candidate');
 inbox = addUnknownCandidate(inbox, ignoredCandidate);
 inbox = ignoreUnknownCandidate(inbox, ignoredCandidate.candidateId, observedAtMs);
 assert.equal(summarizeUnknownInbox(inbox).ignored, 1);
@@ -62,12 +62,12 @@ assert.throws(() => importLabeledUnknown(addUnknownCandidate(createEmptyUnknownI
 
 const tmp = mkdtempSync(join(tmpdir(), 'keyhint-unknown-inbox-'));
 const storePath = join(tmp, 'unknown-inbox.json');
-const env = { ...process.env, KEYHINT_STORE_PATH: storePath };
+const env = { ...process.env, KEYHINT_STORE_PATH: storePath, KEYHINT_ALLOW_EXTERNAL_STORE: '1' };
 function run(args: string[]) {
   return execFileSync('node', ['scripts/keyhint.mjs', ...args], { encoding: 'utf8', env });
 }
 
-const added = JSON.parse(run(['unknown:add', '--bundle-id', context.bundleId, '--app', context.displayName, '--shortcut', 'Command+Shift+X', '--observed-at', String(observedAtMs), '--app-version', '1.0.0']));
+const added = JSON.parse(run(['unknown:add', '--bundle-id', context.bundleId ?? '', '--app', context.displayName ?? '', '--shortcut', 'Command+Shift+X', '--observed-at', String(observedAtMs), '--app-version', '1.0.0']));
 assert.equal(added.ok, true);
 assert.equal(added.item.status, 'new');
 const listed = JSON.parse(run(['unknown:list']));
@@ -77,7 +77,7 @@ assert.equal(labeled.item.status, 'labeled');
 const importedCli = JSON.parse(run(['unknown:import', '--id', added.item.candidate.candidateId, '--at', String(observedAtMs + 1000)]));
 assert.equal(importedCli.item.status, 'imported');
 assert.equal(importedCli.override.meaning, 'Run selected command');
-const ignoredCliAdd = JSON.parse(run(['unknown:add', '--bundle-id', context.bundleId, '--app', context.displayName, '--shortcut', 'Command+Option+I', '--observed-at', String(observedAtMs)]));
+const ignoredCliAdd = JSON.parse(run(['unknown:add', '--bundle-id', context.bundleId ?? '', '--app', context.displayName ?? '', '--shortcut', 'Command+Option+I', '--observed-at', String(observedAtMs)]));
 const ignoredCli = JSON.parse(run(['unknown:ignore', '--id', ignoredCliAdd.item.candidate.candidateId, '--at', String(observedAtMs)]));
 assert.equal(ignoredCli.item.status, 'ignored');
 const stored = JSON.parse(readFileSync(storePath, 'utf8'));

@@ -57,9 +57,10 @@ assert.equal(resolved.confidence, 'user_verified');
 assert.equal(resolved.conflicts.length, 5);
 assert.equal(resolved.conflicts[0].source, 'imported_keybindings');
 
-for (let index = 0; index < SOURCE_PRECEDENCE.length - 1; index += 1) {
-  const winningSource = SOURCE_PRECEDENCE[index];
-  const lowerSource = SOURCE_PRECEDENCE[index + 1];
+const precedence: SourceKind[] = [...SOURCE_PRECEDENCE];
+for (let index = 0; index < precedence.length - 1; index += 1) {
+  const winningSource = precedence[index] as SourceKind;
+  const lowerSource = precedence[index + 1] as SourceKind;
   const pair = resolveShortcut({
     bundleId,
     canonicalShortcut,

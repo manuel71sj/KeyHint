@@ -30,7 +30,7 @@
 | 11 | [x] | `$interface-design` 후 `$ralph` | Settings IA를 구현한다 | Status/Privacy/HUD/Sources/Unknowns/Apps/Diagnostics 화면 또는 scaffold 존재 | 완료 — Settings IA scaffold와 Keystroke ledger 화면 구현 |
 | 12 | [x] | `$ralph` + docs | privacy/troubleshooting/release 문서를 작성한다 | `docs/privacy.md`, `docs/troubleshooting.md`, `docs/release.md` 존재 | 완료 — privacy/troubleshooting/release 문서와 검증 스크립트 작성 |
 | 13 | [x] | `$ralph` + tests | 테스트 계획을 자동화 테스트로 반영한다 | normalizer/matcher/queue/permission/redaction 테스트 존재 | 완료 — normalizer/matcher/queue/permission/redaction 자동화 커버리지 추가 |
-| 14 | [ ] | `$code-review` + architect verification | 전체 코드 리뷰와 Ralph 검증을 수행한다 | fresh test/build/lint, architect approval, deslop/re-verify 완료 |  |
+| 14 | [x] | `$code-review` + architect verification | 전체 코드 리뷰와 Ralph 검증을 수행한다 | fresh test/build/lint, architect approval, deslop/re-verify 완료 | 완료 — code-reviewer APPROVE, architect CLEAR, review fixes and fresh gates 통과 |
 | 15 | [ ] | `$ultraqa` 또는 `$qa` | 실제 사용 QA 계획을 수행/문서화한다 | HUD, 권한, fullscreen, multi-display, secure input 결과 기록 |  |
 | 16 | [ ] | `/ship` 또는 `$ralph` | 배포 준비를 문서화한다 | signed/notarized/no-network/GitHub Release checklist 준비 |  |
 
@@ -189,3 +189,14 @@
 - 완료 보고: shortcut normalizer, matcher precedence, shortcut event queue, permission recovery policy, diagnostics redaction을 자동화 테스트로 고정하고 문서화했다.
 - 검증 근거: `npm run test:automation-coverage` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
 - 커밋: `1ddd3db`
+
+
+### 단계 14 — 전체 코드 리뷰와 Ralph 검증
+
+- 상태: 완료
+- 시작: 2026-06-16
+- 완료: 2026-06-16
+- 사용한 스킬/표면: `$code-review` + architect verification + `$ralph` fix/reverify
+- 완료 보고: 독립 code-reviewer가 최초 `REQUEST CHANGES`, architect가 `WATCH`를 반환한 뒤 XSS/CSP, Rust freshness, CLI write path, shortcut map schema drift, scripts typecheck, clippy, diagnostics wording을 보정했다. 재리뷰에서 code-reviewer `APPROVE`, architect `CLEAR`를 받았다.
+- 검증 근거: `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, `npm run lint:rust` 통과, `npm run maps:validate` 통과, `git diff --check` 통과.
+- 커밋: `보정 예정`
