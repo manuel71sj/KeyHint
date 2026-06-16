@@ -177,4 +177,4 @@
 - 사용한 스킬/표면: `$ralph` + docs
 - 완료 보고: local-only privacy contract, Problem/Cause/Fix/Verify troubleshooting catalog, signed/notarized release checklist와 release notes template을 작성하고 문서 검증 스크립트를 추가했다.
 - 검증 근거: `npm run test:docs` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과.
-- 커밋: `보정 예정`
+- 커밋: `eaa8e30`
