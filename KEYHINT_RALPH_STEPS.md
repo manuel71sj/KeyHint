@@ -221,4 +221,4 @@
 - 사용한 스킬/표면: `$ralph` + release readiness 문서화
 - 완료 보고: `docs/distribution-readiness.md`에 repo-local readiness, signed/notarized release 미준비 사유, no-network checklist, GitHub Release checklist, release notes skeleton, rollback plan을 작성했다.
 - 검증 근거: `npm run test:distribution-readiness` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, `npm run lint:rust` 통과, `npm run maps:validate` 통과, `git diff --check` 통과. 실제 signed/notarized artifact 생성은 수동 release 단계로 남겼다.
-- 커밋: `보정 예정`
+- 커밋: `c2f6964`
