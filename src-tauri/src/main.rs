@@ -24,9 +24,14 @@ fn event_collector_spike() -> native::event_collector::EventCollectorSpikeReport
     native::event_collector::spike_report()
 }
 
+#[tauri::command]
+fn active_app_spike() -> native::active_app::ActiveAppSpikeReport {
+    native::active_app::spike_report()
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![app_status, event_collector_spike])
+        .invoke_handler(tauri::generate_handler![app_status, event_collector_spike, active_app_spike])
         .run(tauri::generate_context!())
         .expect("error while running KeyHint");
 }

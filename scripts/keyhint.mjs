@@ -54,7 +54,7 @@ function printJson(value) {
 }
 
 function help() {
-  process.stdout.write(`KeyHint developer commands\n\nUsage:\n  npm run keyhint -- doctor\n  npm run keyhint -- hud:test --shortcut Command+P --app Cursor\n  npm run keyhint -- permissions:check\n  npm run keyhint -- maps:validate\n  npm run keyhint -- diagnostics:redact [--out .tmp/diagnostics-redacted.json]\n  npm run keyhint -- event:spike\n\n`);
+  process.stdout.write(`KeyHint developer commands\n\nUsage:\n  npm run keyhint -- doctor\n  npm run keyhint -- hud:test --shortcut Command+P --app Cursor\n  npm run keyhint -- permissions:check\n  npm run keyhint -- maps:validate\n  npm run keyhint -- diagnostics:redact [--out .tmp/diagnostics-redacted.json]\n  npm run keyhint -- event:spike\n  npm run keyhint -- app:resolve\n\n`);
 }
 
 function doctor() {
@@ -134,6 +134,44 @@ function mapsValidate() {
   if (!ok) process.exitCode = 1;
 }
 
+function resolveActiveApp() {
+  const observedAt = Date.now();
+  const script = [
+    'tell application "System Events"',
+    'set frontApp to first application process whose frontmost is true',
+    'set appName to name of frontApp',
+    'set bundleId to bundle identifier of frontApp',
+    'return appName & "\n" & bundleId',
+    'end tell',
+  ].join('\n');
+
+  try {
+    const output = execFileSync('osascript', ['-e', script], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+    const [displayName, bundleId] = output.split(/\r?\n/);
+    const resolved = Boolean(displayName && bundleId);
+    printJson({
+      ok: true,
+      state: resolved ? 'resolved' : 'no_active_app',
+      bundleId: bundleId || null,
+      displayName: displayName || null,
+      observedAtMs: observedAt,
+      canStoreUnknown: resolved,
+      storageGuard: 'store UnknownCandidate only when state is resolved and context is fresh',
+    });
+  } catch (error) {
+    printJson({
+      ok: true,
+      state: 'resolver_unavailable',
+      bundleId: null,
+      displayName: null,
+      observedAtMs: observedAt,
+      canStoreUnknown: false,
+      storageGuard: 'do not store UnknownCandidate when resolver is unavailable',
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
+}
+
 function eventSpike() {
   printJson({
     ok: true,
@@ -201,6 +239,9 @@ switch (command) {
     break;
   case 'event:spike':
     eventSpike();
+    break;
+  case 'app:resolve':
+    resolveActiveApp();
     break;
   default:
     process.stderr.write(`Unknown keyhint command: ${command}\n\n`);

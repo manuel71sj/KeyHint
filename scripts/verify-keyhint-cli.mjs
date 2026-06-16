@@ -35,6 +35,14 @@ assert.equal(maps.ok, true);
 assert.equal(maps.checked, 1);
 
 
+
+const activeApp = JSON.parse(run(['app:resolve']));
+assert.equal(activeApp.ok, true);
+assert.match(activeApp.state, /^(resolved|no_active_app|resolver_unavailable)$/);
+if (activeApp.state !== 'resolved') {
+  assert.equal(activeApp.canStoreUnknown, false);
+}
+
 const eventSpike = JSON.parse(run(['event:spike']));
 assert.equal(eventSpike.collectorStarted, false);
 assert.equal(eventSpike.storesRawText, false);
