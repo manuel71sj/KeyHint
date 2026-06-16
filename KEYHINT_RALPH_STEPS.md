@@ -54,4 +54,4 @@
 - 사용한 스킬/표면: `$ralph` planning gate
 - 완료 보고: 승인 기획서를 repo-local PRD, 테스트 스펙, 구현 계획으로 분리했고 Ralph 구현 게이트 파일을 생성했다.
 - 검증 근거: `docs/PRD.md`, `docs/test-spec.md`, `docs/implementation-plan.md`, `.omx/plans/prd-keyhint.md`, `.omx/plans/test-spec-keyhint.md`가 모두 존재하며 핵심 키워드(local memory, meaning-first, Unknown, trust-before-permission, raw text, source precedence)를 grep으로 확인했다.
-- 커밋: 보정 예정
+- 커밋: 
