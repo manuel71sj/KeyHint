@@ -32,7 +32,7 @@
 | 13 | [x] | `$ralph` + tests | 테스트 계획을 자동화 테스트로 반영한다 | normalizer/matcher/queue/permission/redaction 테스트 존재 | 완료 — normalizer/matcher/queue/permission/redaction 자동화 커버리지 추가 |
 | 14 | [x] | `$code-review` + architect verification | 전체 코드 리뷰와 Ralph 검증을 수행한다 | fresh test/build/lint, architect approval, deslop/re-verify 완료 | 완료 — code-reviewer APPROVE, architect CLEAR, review fixes and fresh gates 통과 |
 | 15 | [x] | `$ultraqa` 또는 `$qa` | 실제 사용 QA 계획을 수행/문서화한다 | HUD, 권한, fullscreen, multi-display, secure input 결과 기록 | 완료 — 권한 없는 자동 smoke와 수동 dogfood matrix 기록 |
-| 16 | [ ] | `/ship` 또는 `$ralph` | 배포 준비를 문서화한다 | signed/notarized/no-network/GitHub Release checklist 준비 |  |
+| 16 | [x] | `/ship` 또는 `$ralph` | 배포 준비를 문서화한다 | signed/notarized/no-network/GitHub Release checklist 준비 | 완료 — distribution readiness와 signed/notarized/no-network/GitHub Release checklist 작성 |
 
 ## 단계별 로그
 
@@ -211,3 +211,14 @@
 - 완료 보고: HUD known/unknown/permission, Settings IA, source maps, redaction, native matrix의 자동 smoke evidence와 fullscreen/Stage Manager/multi-display/secure input 등 수동 dogfood matrix를 `docs/qa-dogfood.md`에 기록했다.
 - 검증 근거: 네 개 Vite preview URL HTTP 200 확인, `npm run test:qa-plan` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, `npm run lint:rust` 통과. 실제 macOS 권한/Spaces/Stage Manager dogfood는 수동 QA로 남겼다.
 - 커밋: `48a1623`
+
+
+### 단계 16 — 배포 준비 문서화
+
+- 상태: 완료
+- 시작: 2026-06-16
+- 완료: 2026-06-16
+- 사용한 스킬/표면: `$ralph` + release readiness 문서화
+- 완료 보고: `docs/distribution-readiness.md`에 repo-local readiness, signed/notarized release 미준비 사유, no-network checklist, GitHub Release checklist, release notes skeleton, rollback plan을 작성했다.
+- 검증 근거: `npm run test:distribution-readiness` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과, `npm run lint:rust` 통과, `npm run maps:validate` 통과, `git diff --check` 통과. 실제 signed/notarized artifact 생성은 수동 release 단계로 남겼다.
+- 커밋: `보정 예정`
