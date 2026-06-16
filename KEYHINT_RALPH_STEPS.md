@@ -1,0 +1,45 @@
+# KeyHint Ralph 실행 순서
+
+생성일: 2026-06-16  
+워크플로: `$ralph`  
+기준 기획서: `/Users/manuel71/.gstack/projects/manuel71sj-KeyHint/manuel71-main-design-20260616-081323.md`  
+운영 규칙: 각 단계 완료 후 이 파일에 완료 표시, 간단 완료 보고, 검증 근거, 커밋 해시를 기록한다.
+
+## 상태 범례
+
+- `[ ]` 대기
+- `[~]` 진행 중
+- `[x]` 완료
+- `[!]` 차단/수동 검증 필요
+
+## 실행 단계
+
+| 단계 | 상태 | 적합한 스킬/표면 | 목표 | 완료 기준 | 완료 보고 |
+|---:|:---:|---|---|---|---|
+| 0 | [~] | `$ralph` | 실행 순서 문서와 Ralph 컨텍스트를 만든다 | 이 파일 생성, 컨텍스트 스냅샷 작성, 커밋 | 진행 중 |
+| 1 | [ ] | `$ralph` + planning gate | 승인 기획서를 repo-local PRD/테스트 스펙/구현 계획으로 분리한다 | `docs/PRD.md`, `docs/test-spec.md`, `docs/implementation-plan.md`, `.omx/plans/prd-keyhint.md`, `.omx/plans/test-spec-keyhint.md` 생성 |  |
+| 2 | [ ] | `$ralph` + DX | README quickstart와 permissionless mock HUD demo 계약을 작성한다 | README에 5분 quickstart, mock HUD 명령, 권한 caveat, troubleshooting 링크 추가 |  |
+| 3 | [ ] | `$ralph` + Tauri 공식 문서 확인 | Tauri v2 앱 scaffold를 만든다 | `package.json`, `src/`, `src-tauri/` 기본 구조, dev/test script 존재 |  |
+| 4 | [ ] | `$ralph` + frontend 구현 | permissionless mock HUD demo를 구현한다 | 권한 없이 mock HUD 화면/상태를 볼 수 있음 |  |
+| 5 | [ ] | `$ralph` + DX | developer command 표면을 만든다 | `keyhint doctor`, `hud:test`, `maps:validate`, `diagnostics:redact` 또는 대응 script 동작 |  |
+| 6 | [ ] | `$ralph` + native spike | macOS event collector spike를 구현/문서화한다 | Input Monitoring/CGEventTap 가능성, secure input, IME, plain text 정책이 검증/기록됨 |  |
+| 7 | [ ] | `$ralph` | active app resolver spike를 구현/문서화한다 | foreground app bundle id, nil/stale 상태 처리가 검증/기록됨 |  |
+| 8 | [ ] | `$ralph` + UI/native spike | HUD overlay와 native fallback 경계를 구현/문서화한다 | Tauri renderer와 native fallback capability matrix/테스트 체크리스트 존재 |  |
+| 9 | [ ] | `$ralplan` 후 `$ralph` | shortcut source resolver와 local store schema를 확정한다 | source precedence, UnknownCandidate, UserOverride, migration 계약과 테스트 존재 |  |
+| 10 | [ ] | `$ralph` | local Unknown inbox를 구현한다 | Unknown 저장/라벨/무시/import 흐름이 동작 |  |
+| 11 | [ ] | `$interface-design` 후 `$ralph` | Settings IA를 구현한다 | Status/Privacy/HUD/Sources/Unknowns/Apps/Diagnostics 화면 또는 scaffold 존재 |  |
+| 12 | [ ] | `$ralph` + docs | privacy/troubleshooting/release 문서를 작성한다 | `docs/privacy.md`, `docs/troubleshooting.md`, `docs/release.md` 존재 |  |
+| 13 | [ ] | `$ralph` + tests | 테스트 계획을 자동화 테스트로 반영한다 | normalizer/matcher/queue/permission/redaction 테스트 존재 |  |
+| 14 | [ ] | `$code-review` + architect verification | 전체 코드 리뷰와 Ralph 검증을 수행한다 | fresh test/build/lint, architect approval, deslop/re-verify 완료 |  |
+| 15 | [ ] | `$ultraqa` 또는 `$qa` | 실제 사용 QA 계획을 수행/문서화한다 | HUD, 권한, fullscreen, multi-display, secure input 결과 기록 |  |
+| 16 | [ ] | `/ship` 또는 `$ralph` | 배포 준비를 문서화한다 | signed/notarized/no-network/GitHub Release checklist 준비 |  |
+
+## 단계별 로그
+
+### 단계 0 — 실행 순서 문서 생성
+
+- 상태: 진행 중
+- 시작: 2026-06-16
+- 완료 보고: 대기
+- 검증 근거: 대기
+- 커밋: 대기
