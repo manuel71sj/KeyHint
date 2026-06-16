@@ -144,4 +144,4 @@
 - 사용한 스킬/표면: `$ralplan` consensus gate + `$ralph` 구현/검증
 - 완료 보고: Architect/Critic consensus로 identity/freshness/migration/redaction 계약을 확정한 뒤, TypeScript-first local store schema와 source resolver, 검증 스크립트, 문서를 구현했다.
 - 검증 근거: `npm run test:source-resolver` 통과, `npm run test` 통과, `npm run build` 통과, `npm audit --audit-level=high` 통과. 검증은 source precedence, deterministic `candidateId`/`overrideId`, unresolved/stale Unknown 저장 차단, migration dry-run, diagnostics redaction을 포함한다.
-- 커밋: `보정 예정`
+- 커밋: `1517ea6`
