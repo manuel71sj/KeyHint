@@ -88,4 +88,4 @@
 - 사용한 스킬/표면: `$ralph` + frontend 구현
 - 완료 보고: 권한 없이 Known, Unknown, Permission missing HUD 상태를 query string으로 볼 수 있는 mock HUD demo를 구현했다.
 - 검증 근거: `npm run test:mock-hud` 통과, `npm run check` 통과, `npm run build` 통과, Vite dev server에서 세 mock URL 모두 HTTP 200 응답 확인.
-- 커밋: 보정 예정
+- 커밋: `2bf088d`
